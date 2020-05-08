@@ -25,19 +25,6 @@ Feature: Spheres
          When n = normal_at(s, point(0.577350269189, 0.577350269189, 0.577350269189))
          Then n = normalize(n)
 
-    Scenario: Computing the normal on a translated sphere
-        Given s = sphere()
-          And set_transform(s, translation(0, 1, 0))
-         When n = normal_at(s, point(0, 1.70711, -0.70711))
-         Then n = vector(0, 0.70711, -0.70711)
-
-    Scenario: Computing the normal on a transformed sphere
-        Given s = sphere()
-          And m = scaling(1, 0.5, 1) * rotation_z(36)
-          And set_transform(s, m)
-         When n = normal_at(s, point(0, 0.7071067811865, -0.7071067811865))
-         Then n = vector(0, 0.97014, -0.24254)
-
     Scenario: Reflecting a vector approaching at 45 degrees
         Given v = vector(1, -1, 0)
           And n = vector(0, 1, 0)
@@ -64,15 +51,3 @@ Feature: Spheres
           And m.diffuse = 0.9
           And m.specular = 0.9
           And m.shininess = 200.0
-
-    Scenario: A sphere has a default material
-        Given s = sphere()
-         When m = s.material
-         Then m = material()
-
-    Scenario: A sphere may be assigned a material
-        Given s = sphere()
-          And m = material()
-          And m.ambient = 1
-         When s.material = m
-         Then s.material = m
