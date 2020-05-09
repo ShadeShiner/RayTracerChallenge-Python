@@ -9,6 +9,7 @@ from src.PointLight import PointLight
 from src.Material import Material
 from src.Sphere import sphere
 
+
 @when('n = normal_at(s, point({x:g}, {y:g}, {z:g}))')
 def step_impl(context, x, y, z):
     p = point(x, y, z)
@@ -182,3 +183,18 @@ def step_impl(context, x, y, z):
     s = sphere()
     s.transform = Matrix.translation(x, y, z)
     context.s2 = s
+
+
+@given('object = sphere()')
+def step_impl(context):
+    context.object = sphere()
+
+
+@given('set_transform(object, scaling({x:g}, {y:g}, {z:g}))')
+def step_impl(context, x, y, z):
+    context.object.transform = Matrix.scaling(x, y, z)
+
+
+@given('set_transform(shape, scaling({x:g}, {y:g}, {z:g}))')
+def step_impl(context, x, y, z):
+    context.shape.transform = Matrix.scaling(x, y, z)

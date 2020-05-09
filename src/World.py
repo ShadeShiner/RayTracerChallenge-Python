@@ -34,7 +34,9 @@ class World(object):
     # and sum the all the color results.
     def shade_hit(self, comps: Precomputed) -> Color:
         in_shadow = self.is_shadowed(comps.over_point)
-        return lighting(comps.object.material, self.light,
+        return lighting(comps.object.material,
+                        comps.object,
+                        self.light,
                         comps.point, comps.eyev, comps.normalv, in_shadow)
 
     def is_shadowed(self, point: Vec3) -> bool:

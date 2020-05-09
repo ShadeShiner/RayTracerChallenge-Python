@@ -11,6 +11,7 @@ class Material(object):
         self.diffuse = diffuse
         self.specular = specular
         self.shininess = shininess
+        self.pattern = None
 
     def __eq__(self, other):
         return self.color == other.color and\
@@ -20,12 +21,15 @@ class Material(object):
                self.shininess == other.shininess
 
 
-def lighting(material: Material, light: PointLight,
+def lighting(material: Material,
+             obj,
+             light: PointLight,
              point: Vec3, eyev: Vec3, normalv: Vec3,
              in_shadow: bool) -> Color:
+    color = material.pattern.pattern_at_shape(obj, point) if material.pattern is not None else material.color
 
     # combine the surface color with the light's color/intensity
-    effective_color = material.color * light.intensity
+    effective_color = color * light.intensity
 
     # find the direction to the light source
     lightv = (light.position - point).normalize()

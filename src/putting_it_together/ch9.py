@@ -7,6 +7,7 @@ from src.World import World, view_transform
 from src.PointLight import PointLight
 from src.Vector import point, vector
 from src.Camera import Camera
+from src.StripePattern import StripePattern
 
 
 def ch9():
@@ -16,6 +17,7 @@ def ch9():
     floor.material = Material()
     floor.material.color = Color(1, 0.9, 0.9)
     floor.material.specular = 0
+    floor.material.pattern = StripePattern(Color(1, 0, 0), Color(0, 0, 1))
 
     # Middle biggest sphere
     middle = sphere()
@@ -45,8 +47,8 @@ def ch9():
     world.light = PointLight(point(-10, 10, -10), Color(1, 1, 1))
     world.objects.extend([floor, middle, right, left])
 
-    # camera = Camera(100, 50, 60)
-    camera = Camera(500, 250, 60)
+    camera = Camera(100, 50, 60)
+    # camera = Camera(500, 250, 60)
     camera.transform = view_transform(point(0, 1.5, -5),
                                       point(0, 1, 0),
                                       vector(0, 1, 0))

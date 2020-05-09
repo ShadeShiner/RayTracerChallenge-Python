@@ -13,9 +13,9 @@ def step_impl(context, x, y, z, r, g, b):
     context.light = PointLight(point(x, y, z), Color(r, g, b))
 
 
-@when('result = lighting(m, light, position, eyev, normalv, in_shadow)')
+@when('result = lighting(m, shape, light, position, eyev, normalv, in_shadow)')
 def step_impl(context):
-    context.result = lighting(context.m, context.light, context.position,
+    context.result = lighting(context.m, context.shape, context.light, context.position,
                               context.eyev, context.normalv, context.in_shadow)
 
 
@@ -34,3 +34,25 @@ def step_impl(context):
 @given('in_shadow = false')
 def step_impl(context):
     context.in_shadow = False
+
+
+@given('m.diffuse = {x:g}')
+def step_impl(context, x):
+    context.m.diffuse = x
+
+
+@given('m.specular = {x:g}')
+def step_impl(context, x):
+    context.m.specular = x
+
+
+@when('c1 = lighting(m, shape, light, point({x:g}, {y:g}, {z:g}), eyev, normalv, false)')
+def step_impl(context, x, y, z):
+    context.c1 = lighting(context.m, context.shape, context.light,
+                          point(x, y, z), context.eyev, context.normalv, False)
+
+
+@when('c2 = lighting(m, shape, light, point({x:g}, {y:g}, {z:g}), eyev, normalv, false)')
+def step_impl(context, x, y, z):
+    context.c2 = lighting(context.m, context.shape, context.light,
+                          point(x, y, z), context.eyev, context.normalv, False)
