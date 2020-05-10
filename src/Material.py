@@ -13,6 +13,8 @@ class Material(object):
         self.shininess = shininess
         self.pattern = None
         self.reflective = 0.0
+        self.transparency = 0.0
+        self.refractive_index = 1.0
 
     def __eq__(self, other):
         return self.color == other.color and\

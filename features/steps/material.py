@@ -62,3 +62,13 @@ def step_impl(context, x, y, z):
 def step_impl(context, expected):
     result = context.m.reflective
     assert expected == result, f'{result} != {expected}'
+
+
+@then('m.transparency = {expected:g}')
+def step_impl(context, expected):
+    assert expected == context.m.transparency, f'm.transparency != {expected}'
+
+
+@then('m.refractive_index = {expected:g}')
+def step_impl(context, expected):
+    assert expected == context.m.refractive_index, f'm.refractive_index != {expected}'

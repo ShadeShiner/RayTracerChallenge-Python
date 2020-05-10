@@ -9,6 +9,7 @@ from src.Vector import point
 from src.Color import Color
 from src.Sphere import sphere
 from src.Matrix import Matrix
+from src.TestPattern import TestPattern
 
 
 @given('w = world()')
@@ -187,3 +188,51 @@ def step_impl(context):
 @when('color = reflected_color(w, comps, {depth:d})')
 def step_impl(context, depth):
     context.color = context.w.reflected_color(context.comps, depth)
+
+
+@when('c = refracted_color(w, comps, {remaining:d})')
+def step_impl(context, remaining):
+    context.c = context.w.refracted_color(context.comps, remaining)
+
+
+@given('shape has')
+def step_impl(context):
+    context.shape.material.transparency = 1.0
+    context.shape.material.refractive_index = 1.5
+
+
+@given('A = the first object in w')
+def step_impl(context):
+    context.A = context.w.objects[0]
+
+
+@given('A has')
+def step_impl(context):
+    context.A.material.ambient = 1.0
+    context.A.material.pattern = TestPattern()
+
+
+@given('B = the second object in w')
+def step_impl(context):
+    context.B = context.w.objects[1]
+
+
+@given('B has')
+def step_impl(context):
+    context.B.material.transparency = 1.0
+    context.B.material.refractive_index = 1.5
+
+
+@given('floor is added to w')
+def step_impl(context):
+    context.w.objects.append(context.floor)
+
+
+@given('ball is added to w')
+def step_impl(context):
+    context.w.objects.append(context.ball)
+
+
+@when('color = shade_hit(w, comps, {remaining:d})')
+def step_impl(context, remaining):
+    context.color = context.w.shade_hit(context.comps, remaining)

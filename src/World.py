@@ -41,10 +41,16 @@ class World(object):
                         comps.point, comps.eyev, comps.normalv, in_shadow)
 
         # If the surface is reflected,
-        # then it will return a potion of it's color
+        # then it will return a portion of it's color
         reflected = self.reflected_color(comps, remaining)
 
-        return surface + reflected
+        # TODO: WTF is wrong here
+        refracted = self.refracted_color(comps, remaining)
+        print(f'Surface: {surface}')
+        print(f'Reflected: {reflected}')
+        print(f'Refracted: {refracted}')
+
+        return surface + reflected + refracted
 
     def is_shadowed(self, point: Vec3) -> bool:
         point_to_light = (self.light.position - point)
@@ -57,7 +63,7 @@ class World(object):
         h = hit(intersections)
         return h is not None and h.t < distance
 
-    def reflected_color(self, comps: Precomputed, remaining: int=4) -> Color:
+    def reflected_color(self, comps: Precomputed, remaining: int=5) -> Color:
         if remaining <= 0:
             return Color(0, 0, 0)
         if comps.object.material.reflective == 0.0:
@@ -68,7 +74,42 @@ class World(object):
 
         return color * comps.object.material.reflective
 
-    def color_at(self, ray: Ray, remaining: int=4) -> Color:
+    def refracted_color(self, comps: Precomputed, remaining: int=5) -> Color:
+        if remaining <= 0:
+            return Color(0, 0, 0)
+
+        if comps.object.material.transparency == 0:
+            return Color(0, 0, 0)
+
+        # Find the ratio of the first index of refraction to the second.
+        # (Yup, this is inverted from the definition of Snell's Law.)
+        n_ratio = comps.n1 / comps.n2
+
+        # cos(theta_i) is the same as the dot product of the two vectors
+        cos_i = Vec3.dot(comps.eyev, comps.normalv)
+
+        # Find sin(theta_t)^2 via trigonometric identity
+        sin2_t = n_ratio ** 2 * (1 - cos_i ** 2)
+
+        if sin2_t > 1:
+            return Color(0, 0, 0)
+
+        # Find cos(theta_t) via trigonometric identity
+        cos_t = math.sqrt(1.0 - sin2_t)
+
+        # Compute the direction of the refracted ray
+        direction = comps.normalv * (n_ratio * cos_i - cos_t) - comps.eyev * n_ratio
+
+        # Create the refracted ray
+        refract_ray = Ray(comps.under_point, direction)
+
+        # Find the color of the refracted ray, making sure to multiply
+        # by the transparency value to account for any opacity
+        result = self.color_at(refract_ray, remaining - 1) *\
+               comps.object.material.transparency
+        return result
+
+    def color_at(self, ray: Ray, remaining: int=5) -> Color:
         intersections = self.intersect_world(ray)
         intersect = hit(intersections)
         if intersect is None:
@@ -129,4 +170,3 @@ if __name__ == '__main__':
     comps = prepare_computations(i, r)
 
     color = w.reflected_color(comps)
-    print(color)

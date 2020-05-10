@@ -7,6 +7,9 @@ from src.utils import EPSILON
 
 class Plane(Shape):
 
+    def __str__(self):
+        return Plane.__name__
+
     def local_intersect(self, local_ray: Ray) -> Intersections:
         if abs(local_ray.direction.y) < EPSILON:
             return Intersections()

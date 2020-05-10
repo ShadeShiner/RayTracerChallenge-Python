@@ -51,3 +51,9 @@ class Sphere(Shape):
 
 def sphere():
     return Sphere()
+
+def glass_sphere():
+    sphere = Sphere()
+    sphere.material.transparency = 1.0
+    sphere.material.refractive_index = 1.5
+    return sphere

@@ -7,7 +7,7 @@ from src.Matrix import Matrix
 from src.Color import Color
 from src.PointLight import PointLight
 from src.Material import Material
-from src.Sphere import sphere
+from src.Sphere import Sphere, sphere, glass_sphere
 
 
 @when('n = normal_at(s, point({x:g}, {y:g}, {z:g}))')
@@ -198,3 +198,60 @@ def step_impl(context, x, y, z):
 @given('set_transform(shape, scaling({x:g}, {y:g}, {z:g}))')
 def step_impl(context, x, y, z):
     context.shape.transform = Matrix.scaling(x, y, z)
+
+
+@given('s = glass_sphere()')
+def step_impl(context):
+    context.s = glass_sphere()
+
+
+@then('s.material.transparency = {expected:g}')
+def step_impl(context, expected):
+    result = context.s.material.transparency
+    assert expected == result, f'{result} != {expected}'
+
+
+@then('s.material.refractive_index = {expected:g}')
+def step_impl(context, expected):
+    result = context.s.material.refractive_index
+    assert expected == result, f'{result} != {expected}'
+
+
+@given('A = glass_sphere() with')
+def step_impl(context):
+    s = glass_sphere()
+    s.transform = Matrix.scaling(2, 2, 2)
+    s.material.refractive_index = 1.5
+    context.A = s
+
+
+@given('B = glass_sphere() with')
+def step_impl(context):
+    s = glass_sphere()
+    s.transform = Matrix.translation(0, 0, -0.25)
+    s.material.refractive_index = 2.0
+    context.B = s
+
+
+@given('C = glass_sphere() with')
+def step_impl(context):
+    s = glass_sphere()
+    s.transform = Matrix.translation(0, 0, 0.25)
+    s.material.refractive_index = 2.5
+    context.C = s
+
+
+@given('shape = glass_sphere() with')
+def step_impl(context):
+    s = glass_sphere()
+    s.transform = Matrix.translation(0, 0, 1)
+    context.shape = s
+
+
+@given('ball = sphere() with')
+def step_impl(context):
+    ball = Sphere()
+    ball.material.color = Color(1, 0, 0)
+    ball.material.ambient = 0.5
+    ball.transform = Matrix.translation(0, -3.5, -0.5)
+    context.ball = ball

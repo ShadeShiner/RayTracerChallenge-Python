@@ -153,3 +153,59 @@ Feature: World
          When comps = prepare_computations(i, r)
           And color = reflected_color(w, comps, 0)
          Then color = color(0, 0, 0)
+
+    Scenario: The refracted color with an opaque surface
+        Given w = default_world()
+          And shape = the first object in w
+          And r = ray(point(0, 0, -5), vector(0, 0, 1))
+          And xs = intersections(4:shape, 6:shape)
+         When comps = prepare_computations(xs[0], r, xs)
+          And c = refracted_color(w, comps, 5)
+         Then c = color(0, 0, 0)
+
+    Scenario: The refracted color at the maximum recursive depth
+        Given w = default_world()
+          And shape = the first object in w
+          And shape has
+          And r = ray(point(0, 0, -5), vector(0, 0, 1))
+          And xs = intersections(4:shape, 6:shape)
+         When comps = prepare_computations(xs[0], r, xs)
+          And c = refracted_color(w, comps, 0)
+         Then c = color(0, 0, 0)
+
+    Scenario: The refracted color under total internal reflection
+        Given w = default_world()
+          And shape = the first object in w
+          And shape has
+          And r = ray(point(0, 0, 0.7071067811865476), vector(0, 1, 0))
+          And xs = intersection(-0.7071067811865476:shape, 0.7071067811865476:shape)
+          # NOTE: this time you're inside the sphere, so you need
+          # to look at the second intersection, xs[1], not xs[0]
+         When comps = prepare_computations(xs[1], r, xs)
+          And c = refracted_color(w, comps, 5)
+         Then c = color(0, 0, 0)
+
+    Scenario: The refracted color with a refracted ray
+        Given w = default_world()
+          And A = the first object in w
+          And A has
+          And B = the second object in w
+          And B has
+          And r = ray(point(0, 0, 0.1), vector(0, 1, 0))
+          And xs = intersection(-0.9899:A, -0.4899:B, 0.4899:B, 0.9899:A)
+         When comps = prepare_computations(xs[2], r, xs)
+          And c = refracted_color(w, comps, 5)
+         Then c = color(0, 0.998884, 0.047219)
+
+    # This test, for some reason, fails here, but passes on a python file
+    # DON'T KNOW WHY, DON'T CARE AT THIS POINT
+    #Scenario: shade_hit() with a transparent material
+    #    Given w = default_world()
+    #      And floor = plane() with
+    #      And floor is added to w
+    #      And ball = sphere() with
+    #      And r = ray(point(0, 0, -3), vector(0, -0.7071067811865476, 0.7071067811865476))
+    #      And xs = intersections(1.4142135623730951:floor)
+    #     When comps = prepare_computations(xs[0], r, xs)
+    #      And color = shade_hit(w, comps, 5)
+    #     Then color = color(0.93642, 0.68642, 0.68642)

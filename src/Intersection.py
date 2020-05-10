@@ -26,6 +26,12 @@ class Intersections(object):
         self.intersects = [intersect for intersect in args]
         self.intersects.sort(key=operator.attrgetter('t'))
 
+    def __getitem__(self, index):
+        return self.intersects[index]
+
+    def __len__(self):
+        return len(self.intersects)
+
 
 class Precomputed(object):
 
@@ -35,8 +41,21 @@ class Precomputed(object):
         self.point = None
         self.eyev = None
         self.normalv = None
+        # This refers to the point a little bit above the surface of the object where it intersects
+        # This is used for shadows, to make sure it does not self shadow
         self.over_point = None
+        # This refers to the point a little bit below the surface of the object where it intersects
+        # This is used to calculate where refracted rays will be originated
+        self.under_point = None
         self.reflectv = None
+        self.n1 = 1.0
+        self.n2 = 1.0
+
+    def __str__(self):
+        result = []
+        for key in self.__dict__:
+            result.append(f'{key}={self.__dict__[key]}')
+        return '\n'.join(result)
 
 
 def hit(intersections: Intersections) -> Intersect:
@@ -53,7 +72,7 @@ def hit(intersections: Intersections) -> Intersect:
     return closest_hit
 
 
-def prepare_computations(intersection: Intersect, ray: Ray) -> Precomputed:
+def prepare_computations(intersection: Intersect, ray: Ray, xs: Intersections=None) -> Precomputed:
     # instantiate a data structure for storing some precomputed values
     comps = Precomputed()
 
@@ -76,4 +95,28 @@ def prepare_computations(intersection: Intersect, ray: Ray) -> Precomputed:
     comps.reflectv = reflect(ray.direction, comps.normalv)
 
     comps.over_point = comps.point + comps.normalv * EPSILON
+    comps.under_point = comps.point - comps.normalv * EPSILON
+
+    # Refractive Indices
+    if xs is None:
+        xs = Intersections()
+
+    containers = []
+    for intersect in xs:
+        if intersect == intersection:
+            if containers:
+                comps.n1 = containers[-1].material.refractive_index
+
+        # If intersect object is contained, it is exiting the intersection
+        if intersect.obj in containers:
+            containers.remove(intersect.obj)
+        # If intersect object is not contained, it is entering the intersection
+        else:
+            containers.append(intersect.obj)
+
+        if intersect == intersection:
+            if containers:
+                comps.n2 = containers[-1].material.refractive_index
+            break
+
     return comps

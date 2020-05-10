@@ -2,6 +2,7 @@ from behave import given, then, when
 
 import sys, os
 sys.path.append(os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, os.pardir)))
+from src.Plane import Plane
 from src.TestShape import test_shape
 from src.Matrix import Matrix
 from src.Vector import point, vector
@@ -51,3 +52,12 @@ def step_impl(context):
 @given('shape.material.ambient = {value:g}')
 def step_impl(context, value):
     context.shape.material.ambient = value
+
+
+@given('floor = plane() with')
+def step_impl(context):
+    floor = Plane()
+    floor.transform = Matrix.translation(0, -1, 0)
+    floor.material.transparency = 0.5
+    floor.material.refractive_index = 1.5
+    context.floor = floor

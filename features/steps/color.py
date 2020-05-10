@@ -11,6 +11,7 @@ from src.Vector import point
 def step_impl(context, r, g, b):
     expected = Color(r, g, b)
     result = context.c
+    print(result)
     assert expected == result, f'c != {expected}'
 
 
