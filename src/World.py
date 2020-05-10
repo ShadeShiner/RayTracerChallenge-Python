@@ -1,3 +1,4 @@
+import math
 from src.PointLight import PointLight
 from src.Vector import point, Vec3
 from src.Color import Color
@@ -32,12 +33,18 @@ class World(object):
     # You would needs to iterates a list of light sources
     # and repeatedly call the lighting function for each source
     # and sum the all the color results.
-    def shade_hit(self, comps: Precomputed) -> Color:
+    def shade_hit(self, comps: Precomputed, remaining=4) -> Color:
         in_shadow = self.is_shadowed(comps.over_point)
-        return lighting(comps.object.material,
+        surface = lighting(comps.object.material,
                         comps.object,
                         self.light,
                         comps.point, comps.eyev, comps.normalv, in_shadow)
+
+        # If the surface is reflected,
+        # then it will return a potion of it's color
+        reflected = self.reflected_color(comps, remaining)
+
+        return surface + reflected
 
     def is_shadowed(self, point: Vec3) -> bool:
         point_to_light = (self.light.position - point)
@@ -50,13 +57,24 @@ class World(object):
         h = hit(intersections)
         return h is not None and h.t < distance
 
-    def color_at(self, ray: Ray) -> Color:
+    def reflected_color(self, comps: Precomputed, remaining: int=4) -> Color:
+        if remaining <= 0:
+            return Color(0, 0, 0)
+        if comps.object.material.reflective == 0.0:
+            return Color(0, 0, 0)
+
+        reflect_ray = Ray(comps.over_point, comps.reflectv)
+        color = self.color_at(reflect_ray, remaining - 1)
+
+        return color * comps.object.material.reflective
+
+    def color_at(self, ray: Ray, remaining: int=4) -> Color:
         intersections = self.intersect_world(ray)
         intersect = hit(intersections)
         if intersect is None:
             return Color(0, 0, 0)
         precomputed = prepare_computations(intersect, ray)
-        return self.shade_hit(precomputed)
+        return self.shade_hit(precomputed, remaining)
 
 
 def default_world():
@@ -97,6 +115,18 @@ def view_transform(from_point: Vec3, to_point: Vec3, up_vector: Vec3):
 
 
 from src.Vector import  vector
+from src.Plane import Plane
+from src.Intersection import Intersect
 if __name__ == '__main__':
     w = default_world()
-    r = Ray(point(0, 0, -5), vector(0, 1, 0))
+    shape = Plane()
+    shape.material.reflective = 0.5
+    shape.transform = Matrix.translation(0, -1, 0)
+    w.objects.append(shape)
+
+    r = Ray(point(0, 0, -3), vector(0, -math.sqrt(2) / 2, math.sqrt(2) / 2))
+    i = Intersect(math.sqrt(2), shape)
+    comps = prepare_computations(i, r)
+
+    color = w.reflected_color(comps)
+    print(color)

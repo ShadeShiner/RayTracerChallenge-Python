@@ -1,6 +1,6 @@
 import operator
 from src.Ray import Ray
-from src.Vector import Vec3
+from src.Vector import Vec3, reflect
 from src.utils import EPSILON
 
 
@@ -36,6 +36,7 @@ class Precomputed(object):
         self.eyev = None
         self.normalv = None
         self.over_point = None
+        self.reflectv = None
 
 
 def hit(intersections: Intersections) -> Intersect:
@@ -70,6 +71,9 @@ def prepare_computations(intersection: Intersect, ray: Ray) -> Precomputed:
         comps.normalv = -comps.normalv
     else:
         comps.inside = False
+
+    # after negating the normal, if necessary
+    comps.reflectv = reflect(ray.direction, comps.normalv)
 
     comps.over_point = comps.point + comps.normalv * EPSILON
     return comps

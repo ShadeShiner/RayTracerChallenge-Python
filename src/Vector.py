@@ -84,7 +84,7 @@ def reflect(in_vector: Vec3, normal: Vec3):
 
 
 if __name__ == '__main__':
-	v = vector(1, -1, 0)
-	n = vector(0, 1, 0)
-	r = reflect(v, n)
-	print(r)
+	result = 0.19033232037953468 - 0.19032
+	print(result)
+	print(EPSILON)
+	print(result <= EPSILON)

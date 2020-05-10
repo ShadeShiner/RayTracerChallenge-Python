@@ -34,6 +34,7 @@ def ch9():
     right.material.color = Color(0.5, 1, 0.1)
     right.material.diffuse = 0.7
     right.material.specular = 0.3
+    right.material.reflective = 1.0
 
     # Left yellow sphere
     left = sphere()

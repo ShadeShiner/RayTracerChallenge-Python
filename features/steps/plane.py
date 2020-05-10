@@ -4,11 +4,41 @@ import sys, os
 sys.path.append(os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, os.pardir)))
 from src.Plane import plane
 from src.Vector import point, vector
+from src.Matrix import Matrix
 
 
 @given('p = plane()')
 def step_impl(context):
     context.p = plane()
+
+
+@given('shape = plane()')
+def step_impl(context):
+    context.shape = plane()
+
+
+@given('shape = plane() with')
+def step_impl(context):
+    shape = plane()
+    shape.material.reflective = 0.5
+    shape.transform = Matrix.translation(0, -1, 0)
+    context.shape = shape
+
+
+@given('lower = plane() with')
+def step_impl(context):
+    lower = plane()
+    lower.material.reflective = 1
+    lower.transform = Matrix.translation(0, -1, 0)
+    context.lower = lower
+
+
+@given('upper = plane() with')
+def step_impl(context):
+    upper = plane()
+    upper.material.reflective = 1
+    upper.transform = Matrix.translation(0, 1, 0)
+    context.upper = upper
 
 
 @when('n1 = local_normal_at(p, point({x:g}, {y:g}, {z:g}))')

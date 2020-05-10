@@ -79,3 +79,10 @@ def step_impl(context):
     expected = context.comps.over_point.z
     result = context.comps.point.z
     assert result > expected, 'comps.point.z <= comps.over_point.z'
+
+
+@then('comps.reflectv = vector({x:g}, {y:g}, {z:g})')
+def step_impl(context, x, y, z):
+    expected = vector(x, y, z)
+    result = context.comps.reflectv
+    assert expected == result, f'{result} != {expected}'

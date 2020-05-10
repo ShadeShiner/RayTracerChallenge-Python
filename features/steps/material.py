@@ -56,3 +56,9 @@ def step_impl(context, x, y, z):
 def step_impl(context, x, y, z):
     context.c2 = lighting(context.m, context.shape, context.light,
                           point(x, y, z), context.eyev, context.normalv, False)
+
+
+@then('m.reflective = {expected:g}')
+def step_impl(context, expected):
+    result = context.m.reflective
+    assert expected == result, f'{result} != {expected}'

@@ -55,3 +55,10 @@ def step_impl(context):
     expected = context.white
     result = context.c
     assert expected == result, 'c != white'
+
+
+@then('color = color({r:g}, {g:g}, {b:g})')
+def step_impl(context, r, g, b):
+    expected = Color(r, g, b)
+    result = context.color
+    assert expected == result, f'{result} != {expected}'

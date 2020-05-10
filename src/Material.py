@@ -12,6 +12,7 @@ class Material(object):
         self.specular = specular
         self.shininess = shininess
         self.pattern = None
+        self.reflective = 0.0
 
     def __eq__(self, other):
         return self.color == other.color and\

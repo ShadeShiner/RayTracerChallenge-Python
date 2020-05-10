@@ -103,3 +103,53 @@ Feature: World
          When comps = prepare_computations(i, r)
           And c = shade_hit(w, comps)
          Then c = color(0.1, 0.1, 0.1)
+
+    Scenario: The reflected color for a nonreflecive material
+        Given w = default_world()
+          And r = ray(point(0, 0, 0), vector(0, 0, 1))
+          And shape = the second object in w
+          And shape.material.ambient = 1
+          And i = intersection(1, shape)
+         When comps = prepare_computations(i, r)
+          And color = reflected_color(w, comps)
+         Then color = color(0, 0, 0)
+
+    Scenario: The reflected color for a reflective material
+        Given w = default_world()
+          And shape = plane() with
+          And shape is added to w
+          And r = ray(point(0, 0, -3), vector(0, -0.70710, 0.70710))
+          And i = intersection(1.41421, shape)
+         When comps = prepare_computations(i, r)
+          And color = reflected_color(w, comps)
+         Then color = color(0.19033, 0.23792, 0.14275)
+
+    Scenario: shade_hit() with a reflective material
+        Given w = default_world()
+          And shape = plane() with
+          And shape is added to w
+          And r = ray(point(0, 0, -3), vector(0, -0.70710, 0.70710))
+          And i = intersection(1.41421, shape)
+         When comps = prepare_computations(i, r)
+          And color = shade_hit(w, comps)
+         Then color = color(0.87676, 0.92435, 0.82917)
+
+    Scenario: color_at() with mutually reflective surfaces
+        Given w = world()
+          And w.light = point_light(point(0, 0, 0), color(1, 1, 1))
+          And lower = plane() with
+          And lower is added to w
+          And upper = plane() with
+          And upper is added to w
+          And r = ray(point(0, 0, 0), vector(0, 1, 0))
+         Then color_at(w, r) should terminate successfully
+
+    Scenario: The reflected color at the maximum recursive depth
+        Given w = default_world()
+          And shape = plane() with
+          And shape is added to w
+          And r = ray(point(0, 0, -3), vector(0, -0.7071067811865476, 0.7071067811865476))
+          And i = intersection(1.4142135623730951, shape)
+         When comps = prepare_computations(i, r)
+          And color = reflected_color(w, comps, 0)
+         Then color = color(0, 0, 0)

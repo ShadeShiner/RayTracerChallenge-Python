@@ -147,3 +147,43 @@ def step_impl(context):
 @given('s2 is added to w')
 def step_impl(context):
     context.w.objects.append(context.s2)
+
+
+@when('color = reflected_color(w, comps)')
+def step_impl(context):
+    context.color = context.w.reflected_color(context.comps)
+
+
+@given('shape is added to w')
+def step_impl(context):
+    context.w.objects.append(context.shape)
+
+
+@when('color = shade_hit(w, comps)')
+def step_impl(context):
+    context.color = context.w.shade_hit(context.comps)
+
+
+@given('lower is added to w')
+def step_impl(context):
+    context.w.objects.append(context.lower)
+
+
+@given('upper is added to w')
+def step_impl(context):
+    context.w.objects.append(context.upper)
+
+
+@then('color_at(w, r) should terminate successfully')
+def step_impl(context):
+    try:
+        context.w.color_at(context.r, 10000)
+    except RecursionError:
+        pass
+    else:
+        assert False, 'Recursion depth was not reached'
+
+
+@when('color = reflected_color(w, comps, {depth:d})')
+def step_impl(context, depth):
+    context.color = context.w.reflected_color(context.comps, depth)

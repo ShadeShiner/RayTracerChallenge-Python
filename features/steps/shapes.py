@@ -46,3 +46,8 @@ def step_impl(context, x, y, z):
 @when('set_transform(s, m)')
 def step_impl(context):
     context.s.transform = context.m
+
+
+@given('shape.material.ambient = {value:g}')
+def step_impl(context, value):
+    context.shape.material.ambient = value
