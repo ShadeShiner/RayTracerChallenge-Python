@@ -7,23 +7,13 @@ from src.Ray import Ray
 
 class Sphere(Shape):
 
-    SPHERE_ID = 0
-
     def __init__(self):
         super(Sphere, self).__init__()
-        self._id = self.SPHERE_ID
-        self.SPHERE_ID += 1
-        self.radius = 1
 
     def __eq__(self, other):
         assert isinstance(other, Sphere), 'The other operand must be a Sphere.'
-        return self.radius == other.radius and \
-               self.transform == other.transform and \
+        return self.transform == other.transform and \
                self.material == other.material
-
-    @property
-    def id(self):
-        return self._id
 
     def local_intersect(self, shape_ray: Ray) -> GroupIntersections:
         # the vector from the sphere's center, to the ray origin
@@ -44,7 +34,7 @@ class Sphere(Shape):
             t2 = Intersection((-b + math.sqrt(discriminant)) / (2 * a), self)
             return GroupIntersections(t1, t2) if t1 < t2 else GroupIntersections(t2, t1)
 
-    def local_normal_at(self, shape_point) -> Vec3:
+    def local_normal_at(self, shape_point: Vec3) -> Vec3:
         # Calculate the object normal
         return (shape_point - point(0, 0, 0)).normalize()
 
