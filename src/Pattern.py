@@ -1,5 +1,4 @@
-from src.Matrix import Matrix
-from src.Vector import Vec3
+from src.VectorAndMatrix import Matrix, Vec3
 from src.Color import Color
 from src.Shape import Shape
 

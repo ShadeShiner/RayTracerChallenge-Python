@@ -1,4 +1,4 @@
-from src.Vector import Vec3
+from src.VectorAndMatrix import Vec3
 
 
 class Ray(object):

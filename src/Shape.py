@@ -1,8 +1,7 @@
-from src.Matrix import Matrix
 from src.Material import Material
 from src.Ray import Ray
 from src.GroupIntersections import GroupIntersections
-from src.Vector import Vec3
+from src.VectorAndMatrix import Matrix, Vec3
 
 
 class Shape(object):

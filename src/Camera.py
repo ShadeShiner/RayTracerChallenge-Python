@@ -1,7 +1,7 @@
 import math
-from src.Matrix import Matrix
+from src.VectorAndMatrix import Matrix
 from src.Ray import Ray
-from src.Vector import point
+from src.VectorAndMatrix import point
 from src.World import World
 from src.Canvas import Canvas
 
@@ -55,10 +55,3 @@ class Camera(object):
                 image.write_pixel(x, y, color)
 
         return image
-
-
-if __name__ == '__main__':
-    c = Camera(201, 101, 90)
-    r = c.ray_for_pixel(100, 50)
-    print(r.origin)
-    print(r.direction)

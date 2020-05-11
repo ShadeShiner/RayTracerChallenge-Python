@@ -1,6 +1,6 @@
 from behave import given, then, when
 
-from src.Vector import Vec3, point, vector, EPSILON
+from src.VectorAndMatrix import Vec3, point, vector, EPSILON
 from src.Color import Color
 
 

@@ -1,11 +1,10 @@
 from behave import given, then, when
 
-from src.Vector import point, vector, reflect
-from src.Matrix import Matrix
+from src.VectorAndMatrix import Matrix, point, vector, reflect
 from src.Color import Color
 from src.PointLight import PointLight
 from src.Material import Material
-from src.Sphere import Sphere, sphere, glass_sphere
+from src.Sphere import Sphere, glass_sphere
 
 
 @when('n = normal_at(s, point({x:g}, {y:g}, {z:g}))')
@@ -161,31 +160,31 @@ def step_impl(context):
 
 @given('shape = sphere()')
 def step_impl(context):
-    context.shape = sphere()
+    context.shape = Sphere()
 
 
 @given('s1 = sphere()')
 def step_impl(context):
-    context.s1 = sphere()
+    context.s1 = Sphere()
 
 
 @given('shape = sphere() with translation({x:g}, {y:g}, {z:g})')
 def step_impl(context, x, y, z):
-    s = sphere()
+    s = Sphere()
     s.transform = Matrix.translation(x, y, z)
     context.shape = s
 
 
 @given('s2 = sphere() with translation({x:g}, {y:g}, {z:g})')
 def step_impl(context, x, y, z):
-    s = sphere()
+    s = Sphere()
     s.transform = Matrix.translation(x, y, z)
     context.s2 = s
 
 
 @given('object = sphere()')
 def step_impl(context):
-    context.object = sphere()
+    context.object = Sphere()
 
 
 @given('set_transform(object, scaling({x:g}, {y:g}, {z:g}))')

@@ -1,6 +1,6 @@
 import math
 from src.Shape import Shape
-from src.Vector import Vec3, point
+from src.VectorAndMatrix import Vec3, point
 from src.GroupIntersections import GroupIntersections, Intersection
 from src.Ray import Ray
 
@@ -48,9 +48,6 @@ class Sphere(Shape):
         # Calculate the object normal
         return (local_point - point(0, 0, 0)).normalize()
 
-
-def sphere():
-    return Sphere()
 
 def glass_sphere():
     sphere = Sphere()

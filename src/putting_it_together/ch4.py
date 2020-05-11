@@ -1,6 +1,6 @@
-from src.Matrix import Matrix
+from src.VectorAndMatrix import Matrix
 from src.Canvas import Canvas
-from src.Vector import Vec3, point
+from src.VectorAndMatrix import Vec3, point
 from src.Color import Color
 
 

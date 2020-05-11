@@ -1,10 +1,10 @@
 from behave import given, then, when
 
-from src.Vector import point, vector
+from src.VectorAndMatrix import point, vector
 from src.Ray import Ray
-from src.Sphere import sphere
+from src.Sphere import Sphere
 from src.GroupIntersections import GroupIntersections, Intersection
-from src.Matrix import Matrix
+from src.VectorAndMatrix import Matrix
 
 
 @given('origin = point({x:d}, {y:d}, {z:d})')
@@ -46,7 +46,7 @@ def step_impl(context, t, x, y, z):
 
 @given('s = sphere()')
 def step_impl(context):
-    context.s = sphere()
+    context.s = Sphere()
 
 
 @when('xs = intersect(s, r)')

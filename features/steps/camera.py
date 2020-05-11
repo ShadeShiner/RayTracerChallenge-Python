@@ -1,10 +1,8 @@
 from behave import given, then, when
 
 from src.Camera import Camera
-from src.Matrix import Matrix
-from src.Vector import point, vector
+from src.VectorAndMatrix import Matrix, view_transform, point, vector
 from src.utils import equal
-from src.World import view_transform
 from src.Color import Color
 
 

@@ -1,7 +1,7 @@
 from behave import given, then
 
-from src.Matrix import Matrix
-from src.Vector import Vec3
+from src.VectorAndMatrix import Matrix
+from src.VectorAndMatrix import Vec3
 from src.utils import equal
 
 

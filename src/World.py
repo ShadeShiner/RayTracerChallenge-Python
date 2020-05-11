@@ -1,13 +1,12 @@
 import math
 from src.PointLight import PointLight
-from src.Vector import point, Vec3
+from src.VectorAndMatrix import point, Vec3
 from src.Color import Color
 from src.Sphere import Sphere
-from src.Matrix import Matrix
+from src.VectorAndMatrix import Matrix
 from src.Ray import Ray
 from src.Precomputed import Precomputed
 from src.GroupIntersections import GroupIntersections
-from src.Material import Material
 
 
 class World(object):
@@ -134,23 +133,3 @@ def default_world():
     world.objects.append(s2)
 
     return world
-
-
-def view_transform(from_point: Vec3, to_point: Vec3, up_vector: Vec3):
-    forward_vector = (to_point - from_point).normalize()
-    world_up = up_vector.normalize()
-    left_vector = Vec3.cross(forward_vector, world_up)
-    view_up = Vec3.cross(left_vector, forward_vector)
-
-    orientation = Matrix.identity_matrix()
-    orientation._matrix[0][0] = left_vector.x
-    orientation._matrix[0][1] = left_vector.y
-    orientation._matrix[0][2] = left_vector.z
-    orientation._matrix[1][0] = view_up.x
-    orientation._matrix[1][1] = view_up.y
-    orientation._matrix[1][2] = view_up.z
-    orientation._matrix[2][0] = -forward_vector.x
-    orientation._matrix[2][1] = -forward_vector.y
-    orientation._matrix[2][2] = -forward_vector.z
-
-    return orientation * Matrix.translation(-from_point.x, -from_point.y, -from_point.z)

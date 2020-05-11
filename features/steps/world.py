@@ -2,10 +2,10 @@ from behave import given, then, when
 
 from src.World import World, default_world
 from src.PointLight import PointLight
-from src.Vector import point
+from src.VectorAndMatrix import point
 from src.Color import Color
-from src.Sphere import sphere
-from src.Matrix import Matrix
+from src.Sphere import Sphere
+from src.VectorAndMatrix import Matrix
 from src.TestPattern import TestPattern
 
 
@@ -26,7 +26,7 @@ def step_impl(context):
 
 @given('s1 = sphere() with')
 def step_impl(context):
-    context.s1 = sphere()
+    context.s1 = Sphere()
     context.s1.material.color = Color(0.8, 1.0, 0.6)
     context.s1.material.diffuse = 0.7
     context.s1.material.specular = 0.2
@@ -34,7 +34,7 @@ def step_impl(context):
 
 @given('s2 = sphere() with')
 def step_impl(context):
-    context.s2 = sphere()
+    context.s2 = Sphere()
     context.s2.transform = Matrix.scaling(0.5, 0.5, 0.5)
 
 

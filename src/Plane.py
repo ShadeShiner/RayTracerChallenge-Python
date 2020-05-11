@@ -1,7 +1,7 @@
 from src.GroupIntersections import GroupIntersections, Intersection
 from src.Ray import Ray
 from src.Shape import Shape
-from src.Vector import Vec3, vector
+from src.VectorAndMatrix import Vec3, vector
 from src.utils import EPSILON
 
 
@@ -19,7 +19,3 @@ class Plane(Shape):
 
     def local_normal_at(self, local_point) -> Vec3:
         return vector(0, 1, 0)
-
-
-def plane():
-    return Plane()

@@ -2,9 +2,9 @@
 This file tests to see that the Canvas, Vector/Position, and Tuples work correctly in order to
 correctly draw pixels and store them into a .ppm image. Can use software like GIMP to see the image.
 """
-from Vector import point, vector, Vec3
-from Canvas import Canvas
-from Color import Color
+from src.VectorAndMatrix import point, vector, Vec3
+from src.Canvas import Canvas
+from src.Color import Color
 
 
 class Projectile(object):

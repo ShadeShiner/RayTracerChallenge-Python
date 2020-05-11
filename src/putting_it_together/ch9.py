@@ -1,11 +1,11 @@
 from src.Plane import plane
 from src.Sphere import sphere
-from src.Matrix import Matrix
+from src.VectorAndMatrix import Matrix, view_transform
 from src.Material import Material
 from src.Color import Color
-from src.World import World, view_transform
+from src.World import World
 from src.PointLight import PointLight
-from src.Vector import point, vector
+from src.VectorAndMatrix import point, vector
 from src.Camera import Camera
 from src.StripePattern import StripePattern
 

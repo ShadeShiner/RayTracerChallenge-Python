@@ -1,5 +1,5 @@
 from src.Color import Color
-from src.Vector import Vec3, reflect
+from src.VectorAndMatrix import Vec3, reflect
 from src.PointLight import PointLight
 
 

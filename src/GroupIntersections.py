@@ -2,7 +2,7 @@ import operator
 
 from src.Precomputed import Precomputed
 from src.Ray import Ray
-from src.Vector import Vec3, reflect
+from src.VectorAndMatrix import Vec3, reflect
 from src.utils import EPSILON
 
 

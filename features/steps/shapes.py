@@ -1,14 +1,14 @@
 from behave import given, then, when
 
 from src.Plane import Plane
-from src.TestShape import test_shape
-from src.Matrix import Matrix
-from src.Vector import point, vector
+from src.TestShape import TestShape
+from src.VectorAndMatrix import Matrix
+from src.VectorAndMatrix import point, vector
 
 
 @given('s = test_shape()')
 def step_impl(context):
-    context.s = test_shape()
+    context.s = TestShape()
 
 
 @when('set_transform(s, translation({x:g}, {y:g}, {z:g}))')

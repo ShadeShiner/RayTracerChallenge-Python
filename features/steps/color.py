@@ -1,7 +1,7 @@
 from behave import given, then, when
 
 from src.Color import Color
-from src.Vector import point
+from src.VectorAndMatrix import point
 
 
 @then('c = color({r:g}, {g:g}, {b:g})')

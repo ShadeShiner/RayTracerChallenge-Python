@@ -1,4 +1,4 @@
-from src.Matrix import Matrix
+from src.VectorAndMatrix import Matrix
 
 
 # 1. What happens when you invert the identity matrix?

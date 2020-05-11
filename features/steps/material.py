@@ -1,6 +1,6 @@
 from behave import given, when, then
 
-from src.Vector import point
+from src.VectorAndMatrix import point
 from src.Color import Color
 from src.PointLight import PointLight
 from src.Material import Material

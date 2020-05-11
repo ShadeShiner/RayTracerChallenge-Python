@@ -1,39 +1,39 @@
 from behave import given, then, when
 
-from src.Plane import plane
-from src.Vector import point, vector
-from src.Matrix import Matrix
+from src.Plane import Plane
+from src.VectorAndMatrix import point, vector
+from src.VectorAndMatrix import Matrix
 
 
-@given('p = plane()')
+@given('p = Plane()')
 def step_impl(context):
-    context.p = plane()
+    context.p = Plane()
 
 
-@given('shape = plane()')
+@given('shape = Plane()')
 def step_impl(context):
-    context.shape = plane()
+    context.shape = Plane()
 
 
-@given('shape = plane() with')
+@given('shape = Plane() with')
 def step_impl(context):
-    shape = plane()
+    shape = Plane()
     shape.material.reflective = 0.5
     shape.transform = Matrix.translation(0, -1, 0)
     context.shape = shape
 
 
-@given('lower = plane() with')
+@given('lower = Plane() with')
 def step_impl(context):
-    lower = plane()
+    lower = Plane()
     lower.material.reflective = 1
     lower.transform = Matrix.translation(0, -1, 0)
     context.lower = lower
 
 
-@given('upper = plane() with')
+@given('upper = Plane() with')
 def step_impl(context):
-    upper = plane()
+    upper = Plane()
     upper.material.reflective = 1
     upper.transform = Matrix.translation(0, 1, 0)
     context.upper = upper

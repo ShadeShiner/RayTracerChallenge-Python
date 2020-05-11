@@ -1,8 +1,8 @@
 from behave import given, then, when
 
-from src.Matrix import Matrix
-from src.Vector import point, vector
-from src.World import view_transform
+from src.VectorAndMatrix import Matrix, view_transform
+from src.VectorAndMatrix import point, vector
+
 
 @given('transform = translation({x:g}, {y:g}, {z:g})')
 def step_impl(context, x, y, z):

@@ -1,13 +1,12 @@
 from src.Canvas import Canvas
-from src.Sphere import sphere
+from src.Sphere import Sphere
 from src.Color import Color
-from src.Matrix import Matrix
+from src.VectorAndMatrix import Matrix, view_transform
 from src.Ray import Ray
-from src.Vector import point, vector
-from src.Intersection import hit
+from src.VectorAndMatrix import point, vector
 from src.PointLight import PointLight
-from src.Material import Material, lighting
-from src.World import World, view_transform
+from src.Material import Material
+from src.World import World
 from src.Camera import Camera
 
 
@@ -24,7 +23,7 @@ def ch5and6():
     half = wall_size / 2
 
     canvas = Canvas(canvas_pixels, canvas_pixels)
-    shape = sphere()
+    shape = Sphere()
 
     # Optional sphere transformations - uncomment to see the sphere changes
     # shape.transform = Matrix.rotation_z(45) * Matrix.scaling(0.5, 1, 1)
@@ -61,7 +60,7 @@ def ch5and6():
             r = Ray(ray_origin, (position - ray_origin).normalize())
             xs = shape.intersect(r)
 
-            intersection = hit(xs)
+            intersection = xs.hit()
             if intersection is not None:
                 # World position of the intersection
                 intersect_point = r.position(intersection.t)
@@ -71,7 +70,7 @@ def ch5and6():
                 eye = -r.direction
 
                 # Color is calculate by the material of the sphere, ambient, diffuse, specular, and the light sources
-                color = lighting(intersection.obj.material, light, intersect_point, eye, intersect_normal)
+                color = intersection.obj.material.lighting(light, intersect_point, eye, intersect_normal)
                 canvas.write_pixel(x, y, color)
 
     with open('ch6.ppm', 'w') as fp:
@@ -80,26 +79,26 @@ def ch5and6():
 
 def ch7():
     # Step 1
-    floor = sphere()
+    floor = Sphere()
     floor.transform = Matrix.scaling(10, 0.01, 10)
     floor.material = Material()
     floor.material.color = Color(1, 0.9, 0.9)
     floor.material.specular = 0
 
     # Step 2
-    left_wall = sphere()
+    left_wall = Sphere()
     left_wall.transform = Matrix.translation(0, 0, 5) * Matrix.rotation_y(-45) * \
                           Matrix.rotation_x(90) * Matrix.scaling(10, 0.01, 10)
     left_wall.material = floor.material
 
     # Step 3
-    right_wall = sphere()
+    right_wall = Sphere()
     right_wall.transform = Matrix.translation(0, 0, 5) * Matrix.rotation_y(45) * \
                            Matrix.rotation_x(90) * Matrix.scaling(10, 0.01, 10)
     right_wall.material = floor.material
 
     # Step 4
-    middle = sphere()
+    middle = Sphere()
     middle.transform = Matrix.translation(-0.5, 1, 0.5)
     middle.material = Material()
     middle.material.color = Color(0.1, 1, 0.5)
@@ -107,7 +106,7 @@ def ch7():
     middle.material.specular = 0.3
 
     # Step 5
-    right = sphere()
+    right = Sphere()
     right.transform = Matrix.translation(1.5, 0.5, -0.5) * Matrix.scaling(0.5, 0.5, 0.5)
     right.material = Material()
     right.material.color = Color(0.5, 1, 0.1)
@@ -115,7 +114,7 @@ def ch7():
     right.material.specular = 0.3
 
     # Step 6
-    left = sphere()
+    left = Sphere()
     left.transform = Matrix.translation(-1.5, 0.33, -0.75) * Matrix.scaling(0.33, 0.33, 0.33)
     left.material = Material()
     left.material.color = Color(1, 0.8, 0.1)

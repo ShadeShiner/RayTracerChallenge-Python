@@ -1,7 +1,7 @@
 from behave import given, then, when
 
 from src.GroupIntersections import GroupIntersections, Intersection
-from src.Vector import point, vector
+from src.VectorAndMatrix import point, vector
 from src.utils import EPSILON
 
 

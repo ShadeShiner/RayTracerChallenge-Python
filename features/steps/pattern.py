@@ -5,9 +5,8 @@ from src.GradientPattern import GradientPattern
 from src.RingPattern import RingPattern
 from src.CheckerPattern import CheckerPattern
 from src.TestPattern import TestPattern
-from src.Vector import point
+from src.VectorAndMatrix import Matrix, point
 from src.Color import Color
-from src.Matrix import Matrix
 
 
 @given('pattern = stripe_pattern(white, black)')
