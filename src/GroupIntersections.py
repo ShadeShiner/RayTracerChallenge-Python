@@ -1,14 +1,20 @@
 import operator
+from typing import Optional
 
 from src.Precomputed import Precomputed
 from src.Ray import Ray
 from src.VectorAndMatrix import Vec3, reflect
 from src.utils import EPSILON
 
-
+"""
+Intersection is a simple data structure representing a collision
+that occurs with a Ray object and a Shape. The 't' value is a float
+indicating how long in "time" units a ray will take to intersect with
+the shape. The shape in which the collision occurred is stored in "obj".
+"""
 class Intersection(object):
 
-    def __init__(self, t, obj):
+    def __init__(self, t: float, obj):
         self.t = t
         self.obj = obj
 
@@ -22,6 +28,15 @@ class Intersection(object):
         return f'Intersect(t={self.t}, obj={self.obj})'
 
     def prepare_computations(self, ray: Ray, xs = None) -> Precomputed:
+        """ Generate a data structure with useful mathematical properties related
+        to lighting, reflection, and refraction.
+
+        :param ray: A ray object that collided with an object in this intersect.
+        :param xs: (Optional) A GroupIntersection objects used to determine the
+        "refractiveness" of when the intersect "entered" and "exited" the object
+
+        :return: The PreComputed data structure with calculated information.
+        """
         # instantiate a data structure for storing some precomputed values
         comps = Precomputed()
 
@@ -29,11 +44,13 @@ class Intersection(object):
         comps.t = self.t
         comps.object = self.obj
 
-        # precompute some useful values
+        # Calculate values needed for the Lighting model
         comps.point = ray.position(comps.t)
         comps.eyev = -ray.direction
         comps.normalv = comps.object.normal_at(comps.point)
 
+        # Determine if the ray hit from inside the object.
+        # Used to avoid darkening the surface too much.
         if Vec3.dot(comps.normalv, comps.eyev) < 0:
             comps.inside = True
             comps.normalv = -comps.normalv
@@ -43,10 +60,12 @@ class Intersection(object):
         # after negating the normal, if necessary
         comps.reflectv = reflect(ray.direction, comps.normalv)
 
+        # This is used for generating shadows, avoids graphical "acne"
         comps.over_point = comps.point + comps.normalv * EPSILON
+        # This is used for generating refraction, where light is bended
         comps.under_point = comps.point - comps.normalv * EPSILON
 
-        # Refractive Indices
+        # Calculating Refractive Indices
         if xs is None:
             xs = GroupIntersections()
 
@@ -68,7 +87,11 @@ class Intersection(object):
 
         return comps
 
-
+"""
+This class is a container of all Intersection that has occurred from a
+Ray intersection Shape operation. The Intersections are sorted by their
+'t' values from negative to positive.
+"""
 class GroupIntersections(object):
 
     def __init__(self, *args: Intersection):
@@ -81,15 +104,15 @@ class GroupIntersections(object):
     def __len__(self):
         return len(self.intersects)
 
-    def hit(self) -> Intersection:
-        # If intersects are sorted, can instead return
-        # the first non-negative t value intersect
-        closest_hit = None
+    def hit(self) -> Optional[Intersection]:
+        """ Find the closest intersection with a positive value. A positive value
+        represents an intersection that occur in the forward direction.
+
+        :return: The closest Intersection that occurs in the Group of Intersections.
+        Can be "None", representing no intersection that occurred.
+        """
         for intersect in self.intersects:
             if intersect.t < 0:
                 continue
-            elif closest_hit is None:
-                closest_hit = intersect
-            elif intersect.t < closest_hit.t:
-                closest_hit = intersect
-        return closest_hit
+            return intersect
+        return None

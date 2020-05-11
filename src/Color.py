@@ -1,3 +1,20 @@
+"""
+This class is used to represent the color for a pixel in a "Canvas". This is done
+using the class attributes: red, green, blue. The range is between 0 and 255
+inclusive.
+
+The itself can use mathematical operations to interact with other Color
+instances such as:
+    - Addition
+    - Subtraction
+    - Multiplication
+    - Division
+    - Equality Checking
+
+The mathematical operations is done attribute wise. I.E. A red is add with a red,
+blue added with a blue, and green added with a green.
+"""
+
 import numbers
 from src.utils import EPSILON
 

@@ -1,9 +1,9 @@
-from src.VectorAndMatrix import Vec3
-
+from src.VectorAndMatrix import Vec3 as Point
+from src.VectorAndMatrix import Vec3 as Vector
 
 class Ray(object):
 
-    def __init__(self, origin, direction):
+    def __init__(self, origin: Point, direction: Vector):
         self.origin = origin
         self.direction = direction
 

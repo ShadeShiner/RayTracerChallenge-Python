@@ -1,6 +1,12 @@
+from src.VectorAndMatrix import Vec3
+from src.Color import Color
+
+"""
+A simple data structure representing a light source in the world.
+"""
 class PointLight(object):
 
-    def __init__(self, position, intensity):
+    def __init__(self, position: Vec3, intensity: Color):
         self.position = position
         self.intensity = intensity
 

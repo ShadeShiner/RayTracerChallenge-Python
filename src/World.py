@@ -19,8 +19,8 @@ class World(object):
         """Iterates through the list of objects in the world. Each object will check if the given
         ray will intersect.
 
-        :param ray: A point with direction moving across the world
-        :return: Intersection object with a list of Intersect that the ray encountered.
+        :param ray: A point with direction moving across the world.
+        :return: An Intersection container object with a list of Intersect that the ray encountered.
         """
         object_intersections = []
         for obj in self.objects:
@@ -33,7 +33,7 @@ class World(object):
     # You would needs to iterates a list of light sources
     # and repeatedly call the lighting function for each source
     # and sum the all the color results.
-    def shade_hit(self, comps: Precomputed, remaining=4) -> Color:
+    def shade_hit(self, comps: Precomputed, remaining: int=5) -> Color:
         in_shadow = self.is_shadowed(comps.over_point)
         surface = comps.object.material.lighting(
                         comps.object,
@@ -46,9 +46,6 @@ class World(object):
 
         # TODO: WTF is wrong here
         refracted = self.refracted_color(comps, remaining)
-        print(f'Surface: {surface}')
-        print(f'Reflected: {reflected}')
-        print(f'Refracted: {refracted}')
 
         return surface + reflected + refracted
 
