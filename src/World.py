@@ -1,6 +1,6 @@
 import math
 from src.PointLight import PointLight
-from src.VectorAndMatrix import point, Vec3
+from src.VectorAndMatrix import point, Vec3, Vec3 as Point
 from src.Color import Color
 from src.Shapes.Sphere import Sphere
 from src.VectorAndMatrix import Matrix
@@ -49,7 +49,7 @@ class World(object):
 
         return surface + reflected + refracted
 
-    def is_shadowed(self, point: Vec3) -> bool:
+    def is_shadowed(self, point: Point) -> bool:
         point_to_light = (self.light.position - point)
         distance = point_to_light.magnitude()
         direction = point_to_light.normalize()

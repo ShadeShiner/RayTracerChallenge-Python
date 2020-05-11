@@ -1,5 +1,4 @@
-from src.VectorAndMatrix import Vec3 as Point
-from src.VectorAndMatrix import Vec3 as Vector
+from src.VectorAndMatrix import Vec3 as Point, Vec3 as Vector
 
 class Ray(object):
 

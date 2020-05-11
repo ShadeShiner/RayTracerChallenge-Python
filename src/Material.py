@@ -1,5 +1,5 @@
 from src.Color import Color
-from src.VectorAndMatrix import Vec3, reflect
+from src.VectorAndMatrix import Vec3, Vec3 as Point, Vec3 as Vector, reflect
 from src.PointLight import PointLight
 
 """
@@ -52,7 +52,7 @@ class Material(object):
     def lighting(self,
                  obj,
                  light: PointLight,
-                 point: Vec3, eyev: Vec3, normalv: Vec3,
+                 point: Point, eyev: Vector, normalv: Vector,
                  in_shadow: bool) -> Color:
         """Calculates the color shaded on the surface of the object using various
         properties from the material.
