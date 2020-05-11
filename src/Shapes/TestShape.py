@@ -1,7 +1,7 @@
 from src.Ray import Ray
-from src.Shape import Shape
+from src.Shapes.Shape import Shape
 from src.VectorAndMatrix import Vec3
-from src.VectorAndMatrix import point, vector
+from src.VectorAndMatrix import vector
 
 
 class TestShape(Shape):

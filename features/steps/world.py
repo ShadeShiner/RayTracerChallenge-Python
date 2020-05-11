@@ -4,7 +4,7 @@ from src.World import World, default_world
 from src.PointLight import PointLight
 from src.VectorAndMatrix import point
 from src.Color import Color
-from src.Sphere import Sphere
+from src.Shapes.Sphere import Sphere
 from src.VectorAndMatrix import Matrix
 from src.TestPattern import TestPattern
 

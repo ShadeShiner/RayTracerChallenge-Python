@@ -2,7 +2,7 @@ import math
 from src.PointLight import PointLight
 from src.VectorAndMatrix import point, Vec3
 from src.Color import Color
-from src.Sphere import Sphere
+from src.Shapes.Sphere import Sphere
 from src.VectorAndMatrix import Matrix
 from src.Ray import Ray
 from src.Precomputed import Precomputed

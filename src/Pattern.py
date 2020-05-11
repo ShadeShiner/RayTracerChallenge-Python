@@ -1,6 +1,6 @@
 from src.VectorAndMatrix import Matrix, Vec3
 from src.Color import Color
-from src.Shape import Shape
+from src.Shapes.Shape import Shape
 
 
 class Pattern(object):

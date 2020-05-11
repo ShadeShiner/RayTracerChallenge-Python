@@ -1,5 +1,5 @@
 from src.Canvas import Canvas
-from src.Sphere import Sphere
+from src.Shapes.Sphere import Sphere
 from src.Color import Color
 from src.VectorAndMatrix import Matrix, view_transform
 from src.Ray import Ray

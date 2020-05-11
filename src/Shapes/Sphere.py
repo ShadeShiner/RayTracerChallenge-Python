@@ -1,5 +1,5 @@
 import math
-from src.Shape import Shape
+from src.Shapes.Shape import Shape
 from src.VectorAndMatrix import Vec3, point
 from src.GroupIntersections import GroupIntersections, Intersection
 from src.Ray import Ray

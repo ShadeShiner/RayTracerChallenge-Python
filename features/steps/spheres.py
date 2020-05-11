@@ -4,7 +4,7 @@ from src.VectorAndMatrix import Matrix, point, vector, reflect
 from src.Color import Color
 from src.PointLight import PointLight
 from src.Material import Material
-from src.Sphere import Sphere, glass_sphere
+from src.Shapes.Sphere import Sphere, glass_sphere
 
 
 @when('n = normal_at(s, point({x:g}, {y:g}, {z:g}))')

@@ -1,6 +1,6 @@
 from src.GroupIntersections import GroupIntersections, Intersection
 from src.Ray import Ray
-from src.Shape import Shape
+from src.Shapes.Shape import Shape
 from src.VectorAndMatrix import Vec3, vector
 from src.utils import EPSILON
 

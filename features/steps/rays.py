@@ -2,7 +2,7 @@ from behave import given, then, when
 
 from src.VectorAndMatrix import point, vector
 from src.Ray import Ray
-from src.Sphere import Sphere
+from src.Shapes.Sphere import Sphere
 from src.GroupIntersections import GroupIntersections, Intersection
 from src.VectorAndMatrix import Matrix
 

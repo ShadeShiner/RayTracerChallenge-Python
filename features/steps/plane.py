@@ -1,6 +1,6 @@
 from behave import given, then, when
 
-from src.Plane import Plane
+from src.Shapes.Plane import Plane
 from src.VectorAndMatrix import point, vector
 from src.VectorAndMatrix import Matrix
 

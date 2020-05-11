@@ -1,7 +1,7 @@
 from behave import given, then, when
 
-from src.Plane import Plane
-from src.TestShape import TestShape
+from src.Shapes.Plane import Plane
+from src.Shapes.TestShape import TestShape
 from src.VectorAndMatrix import Matrix
 from src.VectorAndMatrix import point, vector
 
