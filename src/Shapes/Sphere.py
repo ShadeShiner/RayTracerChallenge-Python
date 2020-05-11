@@ -25,13 +25,13 @@ class Sphere(Shape):
     def id(self):
         return self._id
 
-    def local_intersect(self, local_ray: Ray) -> GroupIntersections:
+    def local_intersect(self, shape_ray: Ray) -> GroupIntersections:
         # the vector from the sphere's center, to the ray origin
         # remember: the sphere is centered at the world origin
-        sphere_to_ray = local_ray.origin - point(0, 0, 0)
+        sphere_to_ray = shape_ray.origin - point(0, 0, 0)
 
-        a = Vec3.dot(local_ray.direction, local_ray.direction)
-        b = 2 * Vec3.dot(local_ray.direction, sphere_to_ray)
+        a = Vec3.dot(shape_ray.direction, shape_ray.direction)
+        b = 2 * Vec3.dot(shape_ray.direction, sphere_to_ray)
         c = Vec3.dot(sphere_to_ray, sphere_to_ray) - 1
 
         discriminant = (b ** 2) - (4 * a * c)
@@ -44,9 +44,9 @@ class Sphere(Shape):
             t2 = Intersection((-b + math.sqrt(discriminant)) / (2 * a), self)
             return GroupIntersections(t1, t2) if t1 < t2 else GroupIntersections(t2, t1)
 
-    def local_normal_at(self, local_point) -> Vec3:
+    def local_normal_at(self, shape_point) -> Vec3:
         # Calculate the object normal
-        return (local_point - point(0, 0, 0)).normalize()
+        return (shape_point - point(0, 0, 0)).normalize()
 
 
 def glass_sphere():

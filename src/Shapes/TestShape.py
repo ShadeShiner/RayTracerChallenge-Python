@@ -9,8 +9,8 @@ class TestShape(Shape):
     def __init__(self):
         super(TestShape, self).__init__()
 
-    def local_intersect(self, local_ray: Ray):
-        self.saved_ray = local_ray
+    def local_intersect(self, shape_ray: Ray):
+        self.saved_ray = shape_ray
 
-    def local_normal_at(self, local_point: Vec3) -> Vec3:
-        return vector(local_point.x, local_point.y, local_point.z)
+    def local_normal_at(self, shape_point: Vec3) -> Vec3:
+        return vector(shape_point.x, shape_point.y, shape_point.z)

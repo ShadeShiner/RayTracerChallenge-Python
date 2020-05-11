@@ -1,5 +1,5 @@
 import math
-from src.Pattern import Pattern
+from src.Patterns.Pattern import Pattern
 from src.VectorAndMatrix import Vec3
 from src.Color import Color
 

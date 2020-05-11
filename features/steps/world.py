@@ -6,7 +6,7 @@ from src.VectorAndMatrix import point
 from src.Color import Color
 from src.Shapes.Sphere import Sphere
 from src.VectorAndMatrix import Matrix
-from src.TestPattern import TestPattern
+from src.Patterns.TestPattern import TestPattern
 
 
 @given('w = world()')

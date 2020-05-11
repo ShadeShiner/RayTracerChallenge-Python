@@ -1,10 +1,10 @@
 from behave import given, then, when
 
-from src.StripePattern import StripePattern
-from src.GradientPattern import GradientPattern
-from src.RingPattern import RingPattern
-from src.CheckerPattern import CheckerPattern
-from src.TestPattern import TestPattern
+from src.Patterns.StripePattern import StripePattern
+from src.Patterns.GradientPattern import GradientPattern
+from src.Patterns.RingPattern import RingPattern
+from src.Patterns.CheckerPattern import CheckerPattern
+from src.Patterns.TestPattern import TestPattern
 from src.VectorAndMatrix import Matrix, point
 from src.Color import Color
 

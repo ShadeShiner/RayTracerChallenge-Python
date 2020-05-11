@@ -7,7 +7,7 @@ from src.World import World
 from src.PointLight import PointLight
 from src.VectorAndMatrix import point, vector
 from src.Camera import Camera
-from src.StripePattern import StripePattern
+from src.Patterns.StripePattern import StripePattern
 
 
 def ch9():
