@@ -15,7 +15,6 @@ def step_impl(context, rows, columns):
 
 @then('M[{row:d},{column:d}] = {expected:g}')
 def step_impl(context, row, column, expected):
-    print(context.M.matrix[row][column])
     assert context.M.matrix[row][column] == expected, f'M[{row}][{column}] != {expected}'
 
 

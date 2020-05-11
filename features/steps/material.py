@@ -3,7 +3,6 @@ from behave import given, when, then
 from src.VectorAndMatrix import point
 from src.Color import Color
 from src.PointLight import PointLight
-from src.Material import Material
 
 
 @given('light = point_light(point({x:d}, {y:d}, {z:d}), color({r:d}, {g:d}, {b:d}))')
@@ -34,39 +33,18 @@ def step_impl(context):
     context.in_shadow = False
 
 
-@given('m.diffuse = {x:g}')
-def step_impl(context, x):
-    context.m.diffuse = x
+@given('m.{attribute:S} = {x:g}')
+def step_impl(context, attribute, x):
+    setattr(context.m, attribute, x)
 
 
-@given('m.specular = {x:g}')
-def step_impl(context, x):
-    context.m.specular = x
+@when('{attribute:S} = lighting(m, shape, light, point({x:g}, {y:g}, {z:g}), eyev, normalv, false)')
+def step_impl(context, attribute, x, y, z):
+    setattr(context, attribute, context.m.lighting(context.shape, context.light,
+                          point(x, y, z), context.eyev, context.normalv, False))
 
 
-@when('c1 = lighting(m, shape, light, point({x:g}, {y:g}, {z:g}), eyev, normalv, false)')
-def step_impl(context, x, y, z):
-    context.c1 = context.m.lighting(context.shape, context.light,
-                          point(x, y, z), context.eyev, context.normalv, False)
-
-
-@when('c2 = lighting(m, shape, light, point({x:g}, {y:g}, {z:g}), eyev, normalv, false)')
-def step_impl(context, x, y, z):
-    context.c2 = context.m.lighting(context.shape, context.light,
-                          point(x, y, z), context.eyev, context.normalv, False)
-
-
-@then('m.reflective = {expected:g}')
-def step_impl(context, expected):
-    result = context.m.reflective
+@then('m.{attribute:S} = {expected:g}')
+def step_impl(context, attribute, expected):
+    result = getattr(context.m, attribute)
     assert expected == result, f'{result} != {expected}'
-
-
-@then('m.transparency = {expected:g}')
-def step_impl(context, expected):
-    assert expected == context.m.transparency, f'm.transparency != {expected}'
-
-
-@then('m.refractive_index = {expected:g}')
-def step_impl(context, expected):
-    assert expected == context.m.refractive_index, f'm.refractive_index != {expected}'

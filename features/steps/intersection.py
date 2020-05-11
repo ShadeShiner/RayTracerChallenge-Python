@@ -5,9 +5,10 @@ from src.VectorAndMatrix import point, vector
 from src.utils import EPSILON
 
 
-@given('i = intersection({t:g}, shape)')
-def step_impl(context, t):
-    context.i = Intersection(t, context.shape)
+@given('i = intersection({t:g}, {attribute:S})')
+def step_impl(context, t, attribute):
+    instance = getattr(context, attribute)
+    context.i = Intersection(t, instance)
 
 
 @when('comps = prepare_computations(i, r)')
@@ -58,11 +59,6 @@ def step_impl(context):
 @then('comps.inside = true')
 def step_impl(context):
     assert context.comps.inside is True, 'comps.inside = false'
-
-
-@given('i = intersection({t:g}, s2)')
-def step_impl(context, t):
-    context.i = Intersection(t, context.s2)
 
 
 @then('comps.over_point.z < -EPSILON/2')

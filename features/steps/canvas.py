@@ -29,44 +29,16 @@ def step_impl(context, r, g, b):
                 f'The pixel at row {row} and column {column} is not black {context.c.pixels[row][column]}'
 
 
-@given('c1 = color({r:g}, {g:g}, {b:g})')
-def step_impl(context, r, g, b):
-    context.c1 = Color(r, g, b)
+@given('{attribute:S} = color({r:g}, {g:g}, {b:g})')
+def step_impl(context, attribute, r, g, b):
+    setattr(context, attribute, Color(r, g, b))
 
 
-@given('c2 = color({r:g}, {g:g}, {b:g})')
-def step_impl(context, r, g, b):
-    context.c2 = Color(r, g, b)
-
-
-@given('c3 = color({r:g}, {g:g}, {b:g})')
-def step_impl(context, r, g, b):
-    context.c3 = Color(r, g, b)
-
-
-@given('red = color(1, 0, 0)')
-def step_impl(context):
-    context.red = Color(1, 0, 0)
-
-
-@when('write_pixel(c, {x:d}, {y:d}, c1)')
-def step_impl(context, x, y):
-    context.c.write_pixel(x, y, context.c1)
-
-
-@when('write_pixel(c, {x:d}, {y:d}, c2)')
-def step_impl(context, x, y):
-    context.c.write_pixel(x, y, context.c2)
-
-
-@when('write_pixel(c, {x:d}, {y:d}, c3)')
-def step_impl(context, x, y):
-    context.c.write_pixel(x, y, context.c3)
-
-
-@when('write_pixel(c, {x:d}, {y:d}, red)')
-def step_impl(context, x, y):
-    context.c.write_pixel(x, y, context.red)
+@when('write_pixel({attribute:S}, {x:d}, {y:d}, {color:S})')
+def step_impl(context, attribute, x, y, color):
+    canvas_instance = getattr(context, attribute)
+    color_instance = getattr(context, color)
+    canvas_instance.write_pixel(x, y, color_instance)
 
 
 @then('pixel_at(c, {x:d}, {y:d}) = red')

@@ -125,10 +125,6 @@ def step_impl(context, expected):
 
 
 @given('m = s.material')
-def step_impl(context):
-    context.m = context.s.material
-
-
 @when('m = s.material')
 def step_impl(context):
     context.m = context.s.material
@@ -158,14 +154,9 @@ def step_impl(context):
     assert expected == result, f'{result} != {expected}'
 
 
-@given('shape = sphere()')
-def step_impl(context):
-    context.shape = Sphere()
-
-
-@given('s1 = sphere()')
-def step_impl(context):
-    context.s1 = Sphere()
+@given('{attribute:S} = sphere()')
+def step_impl(context, attribute):
+    setattr(context, attribute, Sphere())
 
 
 @given('shape = sphere() with translation({x:g}, {y:g}, {z:g})')
@@ -180,11 +171,6 @@ def step_impl(context, x, y, z):
     s = Sphere()
     s.transform = Matrix.translation(x, y, z)
     context.s2 = s
-
-
-@given('object = sphere()')
-def step_impl(context):
-    context.object = Sphere()
 
 
 @given('set_transform(object, scaling({x:g}, {y:g}, {z:g}))')

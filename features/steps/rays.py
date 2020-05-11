@@ -12,7 +12,7 @@ def step_impl(context, x, y, z):
     context.origin = point(x, y, z)
 
 
-@given('direction = vector({x:d}, {y:d}, {z:d})')
+@given('direction = vector({x:g}, {y:g}, {z:g})')
 def step_impl(context, x, y, z):
     context.direction = vector(x, y, z)
 
@@ -178,7 +178,7 @@ def step_impl(context, x, y, z):
     context.m = Matrix.scaling(x, y, z)
 
 
-@then('r2.direction = vector({x:d}, {y:d}, {z:d})')
+@then('r2.direction = vector({x:g}, {y:g}, {z:g})')
 def step_impl(context, x, y, z):
     expected = vector(x, y, z)
     result = context.r2.direction

@@ -39,19 +39,9 @@ def step_impl(context):
     context.upper = upper
 
 
-@when('n1 = local_normal_at(p, point({x:g}, {y:g}, {z:g}))')
-def step_impl(context, x, y, z):
-    context.n1 = context.p.local_normal_at(point(x, y, z))
-
-
-@when('n2 = local_normal_at(p, point({x:g}, {y:g}, {z:g}))')
-def step_impl(context, x, y, z):
-    context.n2 = context.p.local_normal_at(point(x, y, z))
-
-
-@when('n3 = local_normal_at(p, point({x:g}, {y:g}, {z:g}))')
-def step_impl(context, x, y, z):
-    context.n3 = context.p.local_normal_at(point(x, y, z))
+@when('{attribute:S} = local_normal_at(p, point({x:g}, {y:g}, {z:g}))')
+def step_impl(context, attribute, x, y, z):
+    setattr(context, attribute, context.p.local_normal_at(point(x, y, z)))
 
 
 @then('n1 = vector({x:g}, {y:g}, {z:g})')

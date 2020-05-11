@@ -31,22 +31,10 @@ def step_impl(context):
     context.c = Camera(context.hsize, context.vsize, context.field_of_view)
 
 
-@then('c.hsize = {expected:d}')
-def step_impl(context, expected):
-    result = context.c.hsize
-    assert expected == result, f'c.hsize != {expected}'
-
-
-@then('c.vsize = {expected:d}')
-def step_impl(context, expected):
-    result = context.c.vsize
-    assert expected == result, f'c.vsize != {expected}'
-
-
-@then('c.field_of_view = {expected:d}')
-def step_impl(context, expected):
-    result = context.c.field_of_view
-    assert expected == result, f'c.field_of_view != {expected}'
+@then('c.{attribute:S} = {expected:d}')
+def step_impl(context, attribute, expected):
+    result = getattr(context.c, attribute)
+    assert expected == result, f'c.{attribute} != {expected}'
 
 
 @then('c.transform = identity_matrix')
