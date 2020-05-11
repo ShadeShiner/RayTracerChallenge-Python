@@ -1,7 +1,5 @@
 from behave import given, then, when
 
-import sys, os
-sys.path.append(os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, os.pardir)))
 from src.StripePattern import StripePattern
 from src.GradientPattern import GradientPattern
 from src.RingPattern import RingPattern

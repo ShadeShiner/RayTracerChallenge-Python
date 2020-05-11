@@ -1,8 +1,5 @@
 from behave import given, then, when
 
-
-import sys, os
-sys.path.append(os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, os.pardir)))
 from src.Canvas import Canvas
 from src.Color import Color
 

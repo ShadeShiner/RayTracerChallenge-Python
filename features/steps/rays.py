@@ -1,11 +1,9 @@
 from behave import given, then, when
 
-import sys, os
-sys.path.append(os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, os.pardir)))
 from src.Vector import point, vector
 from src.Ray import Ray
 from src.Sphere import sphere
-from src.Intersection import Intersect, Intersections, hit
+from src.GroupIntersections import GroupIntersections, Intersection
 from src.Matrix import Matrix
 
 
@@ -71,7 +69,7 @@ def step_impl(context, i, expected):
 
 @when('i = intersection({t:g}, s)')
 def step_impl(context, t):
-    context.i = Intersect(t, context.s)
+    context.i = Intersection(t, context.s)
 
 
 @then('i.t = {expected:g}')
@@ -87,17 +85,17 @@ def step_impl(context):
 
 @given('i1 = intersection({t:d}, s)')
 def step_impl(context, t):
-    context.i1 = Intersect(t, context.s)
+    context.i1 = Intersection(t, context.s)
 
 
 @given('i2 = intersection({t:d}, s)')
 def step_impl(context, t):
-    context.i2 = Intersect(t, context.s)
+    context.i2 = Intersection(t, context.s)
 
 
 @when('xs = intersection(i1, i2)')
 def step_impl(context):
-    context.xs = Intersections(context.i1, context.i2)
+    context.xs = GroupIntersections(context.i1, context.i2)
 
 
 @then('xs[{i:d}].t = {expected:g}')
@@ -115,12 +113,12 @@ def step_impl(context, i):
 
 @given('xs = intersections(i2, i1)')
 def step_impl(context):
-    context.xs = Intersections(context.i2, context.i1)
+    context.xs = GroupIntersections(context.i2, context.i1)
 
 
 @when('i = hit(xs)')
 def step_impl(context):
-    context.i = hit(context.xs)
+    context.i = context.xs.hit()
 
 
 @then('i = i1')
@@ -140,17 +138,17 @@ def step_impl(context):
 
 @given('i3 = intersection({t:d}, s)')
 def step_impl(context, t):
-    context.i3 = Intersect(t, context.s)
+    context.i3 = Intersection(t, context.s)
 
 
 @given('i4 = intersection({t:d}, s)')
 def step_impl(context, t):
-    context.i4 = Intersect(t, context.s)
+    context.i4 = Intersection(t, context.s)
 
 
 @given('xs = intersections(i1, i2, i3, i4)')
 def step_impl(context):
-    context.xs = Intersections(context.i1, context.i2, context.i3, context.i4)
+    context.xs = GroupIntersections(context.i1, context.i2, context.i3, context.i4)
 
 
 @then('i = i4')

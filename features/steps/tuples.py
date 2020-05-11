@@ -1,7 +1,5 @@
 from behave import given, then, when
 
-import sys, os
-sys.path.append(os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, os.pardir)))
 from src.Vector import Vec3, point, vector, EPSILON
 from src.Color import Color
 

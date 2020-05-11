@@ -24,58 +24,47 @@ class Material(object):
                self.shininess == other.shininess
 
 
-def lighting(material: Material,
-             obj,
-             light: PointLight,
-             point: Vec3, eyev: Vec3, normalv: Vec3,
-             in_shadow: bool) -> Color:
-    color = material.pattern.pattern_at_shape(obj, point) if material.pattern is not None else material.color
+    def lighting(self,
+                 obj,
+                 light: PointLight,
+                 point: Vec3, eyev: Vec3, normalv: Vec3,
+                 in_shadow: bool) -> Color:
+        color = self.pattern.pattern_at_shape(obj, point) if self.pattern is not None else self.color
 
-    # combine the surface color with the light's color/intensity
-    effective_color = color * light.intensity
+        # combine the surface color with the light's color/intensity
+        effective_color = color * light.intensity
 
-    # find the direction to the light source
-    lightv = (light.position - point).normalize()
+        # find the direction to the light source
+        lightv = (light.position - point).normalize()
 
-    # compute the ambient contribution
-    ambient = effective_color * material.ambient
+        # compute the ambient contribution
+        ambient = effective_color * self.ambient
 
-    # if the point is in shadow, ambient should be the only color factored into
-    if in_shadow:
-        return ambient
+        # if the point is in shadow, ambient should be the only color factored into
+        if in_shadow:
+            return ambient
 
-    # light_dot_normal represent the cosine of the angle between the
-    # light vector and the normal vector. A negative number means the
-    # light is on the other side of the surface.
-    light_dot_normal = Vec3.dot(lightv, normalv)
-    if light_dot_normal < 0:
-        diffuse = Color(0, 0, 0)
-        specular = Color(0, 0, 0)
-    else:
-        # compute the diffuse contribution
-        diffuse = effective_color * material.diffuse * light_dot_normal
-
-        # reflect_dot_eye represents the cosine of the angle between the
-        # reflection vector and the eye vector. A negative number means the
-        # light reflects away from the eye.
-        reflectv = reflect(-lightv, normalv)
-        reflect_dot_eye = Vec3.dot(reflectv, eyev)
-
-        if reflect_dot_eye <= 0:
+        # light_dot_normal represent the cosine of the angle between the
+        # light vector and the normal vector. A negative number means the
+        # light is on the other side of the surface.
+        light_dot_normal = Vec3.dot(lightv, normalv)
+        if light_dot_normal < 0:
+            diffuse = Color(0, 0, 0)
             specular = Color(0, 0, 0)
         else:
-            # compute the specular contribution
-            factor = reflect_dot_eye ** material.shininess
-            specular = light.intensity * material.specular * factor
-    return ambient + diffuse + specular
+            # compute the diffuse contribution
+            diffuse = effective_color * self.diffuse * light_dot_normal
 
+            # reflect_dot_eye represents the cosine of the angle between the
+            # reflection vector and the eye vector. A negative number means the
+            # light reflects away from the eye.
+            reflectv = reflect(-lightv, normalv)
+            reflect_dot_eye = Vec3.dot(reflectv, eyev)
 
-from src.Vector import point, vector
-from src.PointLight import PointLight
-if __name__ == '__main__':
-    m = Material()
-    position = point(0, 0, 0)
-    eyev = vector(0, 0, -1)
-    normalv = vector(0, 0, -1)
-    light = PointLight(point(0, 0, -10), Color(1, 1, 1))
-    print(lighting(m, light, position, eyev, normalv))
+            if reflect_dot_eye <= 0:
+                specular = Color(0, 0, 0)
+            else:
+                # compute the specular contribution
+                factor = reflect_dot_eye ** self.shininess
+                specular = light.intensity * self.specular * factor
+        return ambient + diffuse + specular

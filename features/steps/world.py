@@ -1,8 +1,5 @@
 from behave import given, then, when
 
-
-import sys, os
-sys.path.append(os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, os.pardir)))
 from src.World import World, default_world
 from src.PointLight import PointLight
 from src.Vector import point

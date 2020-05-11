@@ -2,11 +2,12 @@ import math
 from src.PointLight import PointLight
 from src.Vector import point, Vec3
 from src.Color import Color
-from src.Sphere import sphere
+from src.Sphere import Sphere
 from src.Matrix import Matrix
 from src.Ray import Ray
-from src.Intersection import Intersections, Precomputed, hit, prepare_computations
-from src.Material import lighting
+from src.Precomputed import Precomputed
+from src.GroupIntersections import GroupIntersections
+from src.Material import Material
 
 
 class World(object):
@@ -15,7 +16,7 @@ class World(object):
         self.objects = []
         self.light = None
 
-    def intersect_world(self, ray: Ray) -> Intersections:
+    def intersect_world(self, ray: Ray) -> GroupIntersections:
         """Iterates through the list of objects in the world. Each object will check if the given
         ray will intersect.
 
@@ -26,7 +27,7 @@ class World(object):
         for obj in self.objects:
             intersections = obj.intersect(ray)
             object_intersections.extend(intersections.intersects)
-        all_intersections = Intersections(*object_intersections)
+        all_intersections = GroupIntersections(*object_intersections)
         return all_intersections
 
     # To make this work with multiple light sources,
@@ -35,7 +36,7 @@ class World(object):
     # and sum the all the color results.
     def shade_hit(self, comps: Precomputed, remaining=4) -> Color:
         in_shadow = self.is_shadowed(comps.over_point)
-        surface = lighting(comps.object.material,
+        surface = comps.object.material.lighting(
                         comps.object,
                         self.light,
                         comps.point, comps.eyev, comps.normalv, in_shadow)
@@ -60,7 +61,7 @@ class World(object):
         ray = Ray(point, direction)
         intersections = self.intersect_world(ray)
 
-        h = hit(intersections)
+        h = intersections.hit()
         return h is not None and h.t < distance
 
     def reflected_color(self, comps: Precomputed, remaining: int=5) -> Color:
@@ -111,10 +112,10 @@ class World(object):
 
     def color_at(self, ray: Ray, remaining: int=5) -> Color:
         intersections = self.intersect_world(ray)
-        intersect = hit(intersections)
+        intersect = intersections.hit()
         if intersect is None:
             return Color(0, 0, 0)
-        precomputed = prepare_computations(intersect, ray)
+        precomputed = intersect.prepare_computations(ray)
         return self.shade_hit(precomputed, remaining)
 
 
@@ -122,13 +123,13 @@ def default_world():
     world = World()
     world.light = PointLight(point(-10, 10, -10), Color(1, 1, 1))
 
-    s1 = sphere()
+    s1 = Sphere()
     s1.material.color = Color(0.8, 1.0, 0.6)
     s1.material.diffuse = 0.7
     s1.material.specular = 0.2
     world.objects.append(s1)
 
-    s2 = sphere()
+    s2 = Sphere()
     s2.transform = Matrix.scaling(0.5, 0.5, 0.5)
     world.objects.append(s2)
 
@@ -153,20 +154,3 @@ def view_transform(from_point: Vec3, to_point: Vec3, up_vector: Vec3):
     orientation._matrix[2][2] = -forward_vector.z
 
     return orientation * Matrix.translation(-from_point.x, -from_point.y, -from_point.z)
-
-
-from src.Vector import  vector
-from src.Plane import Plane
-from src.Intersection import Intersect
-if __name__ == '__main__':
-    w = default_world()
-    shape = Plane()
-    shape.material.reflective = 0.5
-    shape.transform = Matrix.translation(0, -1, 0)
-    w.objects.append(shape)
-
-    r = Ray(point(0, 0, -3), vector(0, -math.sqrt(2) / 2, math.sqrt(2) / 2))
-    i = Intersect(math.sqrt(2), shape)
-    comps = prepare_computations(i, r)
-
-    color = w.reflected_color(comps)

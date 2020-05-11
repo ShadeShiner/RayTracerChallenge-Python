@@ -1,11 +1,9 @@
 from behave import given, when, then
 
-import sys, os
-sys.path.append(os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, os.pardir)))
 from src.Vector import point
 from src.Color import Color
 from src.PointLight import PointLight
-from src.Material import lighting
+from src.Material import Material
 
 
 @given('light = point_light(point({x:d}, {y:d}, {z:d}), color({r:d}, {g:d}, {b:d}))')
@@ -15,7 +13,7 @@ def step_impl(context, x, y, z, r, g, b):
 
 @when('result = lighting(m, shape, light, position, eyev, normalv, in_shadow)')
 def step_impl(context):
-    context.result = lighting(context.m, context.shape, context.light, context.position,
+    context.result = context.m.lighting(context.shape, context.light, context.position,
                               context.eyev, context.normalv, context.in_shadow)
 
 
@@ -48,13 +46,13 @@ def step_impl(context, x):
 
 @when('c1 = lighting(m, shape, light, point({x:g}, {y:g}, {z:g}), eyev, normalv, false)')
 def step_impl(context, x, y, z):
-    context.c1 = lighting(context.m, context.shape, context.light,
+    context.c1 = context.m.lighting(context.shape, context.light,
                           point(x, y, z), context.eyev, context.normalv, False)
 
 
 @when('c2 = lighting(m, shape, light, point({x:g}, {y:g}, {z:g}), eyev, normalv, false)')
 def step_impl(context, x, y, z):
-    context.c2 = lighting(context.m, context.shape, context.light,
+    context.c2 = context.m.lighting(context.shape, context.light,
                           point(x, y, z), context.eyev, context.normalv, False)
 
 

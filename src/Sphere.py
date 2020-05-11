@@ -1,7 +1,7 @@
 import math
 from src.Shape import Shape
 from src.Vector import Vec3, point
-from src.Intersection import Intersect, Intersections
+from src.GroupIntersections import GroupIntersections, Intersection
 from src.Ray import Ray
 
 
@@ -25,7 +25,7 @@ class Sphere(Shape):
     def id(self):
         return self._id
 
-    def local_intersect(self, local_ray: Ray) -> Intersections:
+    def local_intersect(self, local_ray: Ray) -> GroupIntersections:
         # the vector from the sphere's center, to the ray origin
         # remember: the sphere is centered at the world origin
         sphere_to_ray = local_ray.origin - point(0, 0, 0)
@@ -36,13 +36,13 @@ class Sphere(Shape):
 
         discriminant = (b ** 2) - (4 * a * c)
         if discriminant < 0:
-            return Intersections()
+            return GroupIntersections()
         else:
-            t1 = Intersect((-b - math.sqrt(discriminant)) / (2 * a), self)
+            t1 = Intersection((-b - math.sqrt(discriminant)) / (2 * a), self)
             if discriminant == 0:
-                return Intersections(t1, t1)
-            t2 = Intersect((-b + math.sqrt(discriminant)) / (2 * a), self)
-            return Intersections(t1, t2) if t1 < t2 else Intersections(t2, t1)
+                return GroupIntersections(t1, t1)
+            t2 = Intersection((-b + math.sqrt(discriminant)) / (2 * a), self)
+            return GroupIntersections(t1, t2) if t1 < t2 else GroupIntersections(t2, t1)
 
     def local_normal_at(self, local_point) -> Vec3:
         # Calculate the object normal

@@ -1,7 +1,7 @@
 from src.Matrix import Matrix
 from src.Material import Material
 from src.Ray import Ray
-from src.Intersection import Intersections
+from src.GroupIntersections import GroupIntersections
 from src.Vector import Vec3
 
 
@@ -12,12 +12,12 @@ class Shape(object):
         self.transform = Matrix.identity_matrix()
         self.material = Material()
 
-    def intersect(self, ray: Ray) -> Intersections:
+    def intersect(self, ray: Ray) -> GroupIntersections:
         # Converting the ray from world space to object space
         local_ray = ray.transform(self.transform.inverse())
         return self.local_intersect(local_ray)
 
-    def local_intersect(self, local_ray: Ray) -> Intersections:
+    def local_intersect(self, local_ray: Ray) -> GroupIntersections:
         raise NotImplementedError(f'Method "{self.local_intersect.__name__}" needs to be implemented')
 
     def normal_at(self, world_point: Vec3) -> Vec3:
