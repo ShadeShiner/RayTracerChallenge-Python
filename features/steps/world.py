@@ -78,11 +78,6 @@ def step_impl(context):
     context.xs = context.w.intersect_world(context.r)
 
 
-@given('shape = the first object in w')
-def step_impl(context):
-    context.shape = context.w.objects[0]
-
-
 @when('c = shade_hit(w, comps)')
 def step_impl(context):
     context.c = context.w.shade_hit(context.comps)
@@ -93,9 +88,9 @@ def step_impl(context, x, y, z, r, g, b):
     context.w.light = PointLight(point(x, y, z), Color(r, g, b))
 
 
-@given('shape = the second object in w')
-def step_impl(context):
-    context.shape = context.w.objects[1]
+@given('{attribute:S} = the second object in w')
+def step_impl(context, attribute):
+    setattr(context, attribute, context.w.objects[1])
 
 
 @when('c = color_at(w, r)')
@@ -103,19 +98,9 @@ def step_impl(context):
     context.c = context.w.color_at(context.r)
 
 
-@given('outer = the first object in w')
-def step_impl(context):
-    context.outer = context.w.objects[0]
-
-
 @given('outer.material.ambient = {d:d}')
 def step_impl(context, d):
     context.outer.material.ambient = d
-
-
-@given('inner = the second object in w')
-def step_impl(context):
-    context.inner = context.w.objects[1]
 
 
 @given('inner.material.ambient = {d:d}')
@@ -137,14 +122,11 @@ def step_impl(context):
     assert expected == result, 'Point is not in shadow'
 
 
-@given('s1 is added to w')
-def step_impl(context):
-    context.w.objects.append(context.s1)
-
-
-@given('s2 is added to w')
-def step_impl(context):
-    context.w.objects.append(context.s2)
+@given('{attribute:S} is added to w')
+def step_impl(context, attribute):
+    # context.w.objects.append(context.s1)
+    obj = getattr(context, attribute)
+    context.w.objects.append(obj)
 
 
 @when('color = reflected_color(w, comps)')
@@ -152,24 +134,9 @@ def step_impl(context):
     context.color = context.w.reflected_color(context.comps)
 
 
-@given('shape is added to w')
-def step_impl(context):
-    context.w.objects.append(context.shape)
-
-
 @when('color = shade_hit(w, comps)')
 def step_impl(context):
     context.color = context.w.shade_hit(context.comps)
-
-
-@given('lower is added to w')
-def step_impl(context):
-    context.w.objects.append(context.lower)
-
-
-@given('upper is added to w')
-def step_impl(context):
-    context.w.objects.append(context.upper)
 
 
 @then('color_at(w, r) should terminate successfully')
@@ -198,9 +165,9 @@ def step_impl(context):
     context.shape.material.refractive_index = 1.5
 
 
-@given('A = the first object in w')
-def step_impl(context):
-    context.A = context.w.objects[0]
+@given('{attribute:S} = the first object in w')
+def step_impl(context, attribute):
+    setattr(context, attribute, context.w.objects[0])
 
 
 @given('A has')
@@ -209,25 +176,10 @@ def step_impl(context):
     context.A.material.pattern = TestPattern()
 
 
-@given('B = the second object in w')
-def step_impl(context):
-    context.B = context.w.objects[1]
-
-
 @given('B has')
 def step_impl(context):
     context.B.material.transparency = 1.0
     context.B.material.refractive_index = 1.5
-
-
-@given('floor is added to w')
-def step_impl(context):
-    context.w.objects.append(context.floor)
-
-
-@given('ball is added to w')
-def step_impl(context):
-    context.w.objects.append(context.ball)
 
 
 @when('color = shade_hit(w, comps, {remaining:d})')

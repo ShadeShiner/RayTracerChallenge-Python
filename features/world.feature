@@ -199,6 +199,7 @@ Feature: World
 
     # This test, for some reason, fails here, but passes on a python file
     # DON'T KNOW WHY, DON'T CARE AT THIS POINT
+    # TODO: If your still sane, see what is happening
     #Scenario: shade_hit() with a transparent material
     #    Given w = default_world()
     #      And floor = plane() with

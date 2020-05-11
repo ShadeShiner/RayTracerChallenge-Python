@@ -4,11 +4,12 @@ from src.Color import Color
 from src.VectorAndMatrix import point
 
 
-@then('c = color({r:g}, {g:g}, {b:g})')
-def step_impl(context, r, g, b):
+@then('{attribute:S} = color({r:g}, {g:g}, {b:g})')
+def step_impl(context, attribute, r, g, b):
     expected = Color(r, g, b)
-    result = context.c
-    print(result)
+    result = context
+    for prop in attribute.split('.'):
+        result = getattr(result, prop)
     assert expected == result, f'c != {expected}'
 
 
@@ -19,28 +20,9 @@ def step_impl(context):
     assert expected == result, 'c != inner.material.color'
 
 
-@given('black = color({r:g}, {g:g}, {b:g})')
-def step_impl(context, r, g, b):
-    context.black = Color(r, g, b)
-
-
-@given('white = color({r:g}, {g:g}, {b:g})')
-def step_impl(context, r, g, b):
-    context.white = Color(r, g, b)
-
-
-@then('c1 = color({r:g}, {g:g}, {b:g})')
-def step_impl(context, r, g, b):
-    expected = Color(r, g, b)
-    result = context.c1
-    assert expected == result, f'{result} != {expected}'
-
-
-@then('c2 = color({r:g}, {g:g}, {b:g})')
-def step_impl(context, r, g, b):
-    expected = Color(r, g, b)
-    result = context.c2
-    assert expected == result, f'{result} != {expected}'
+@given('{attribute:S} = color({r:g}, {g:g}, {b:g})')
+def step_impl(context, attribute, r, g, b):
+    setattr(context, attribute, Color(r, g, b))
 
 
 @when('c = stripe_at_object(pattern, object, point({x:g}, {y:g}, {z:g}))')
@@ -53,10 +35,3 @@ def step_impl(context):
     expected = context.white
     result = context.c
     assert expected == result, 'c != white'
-
-
-@then('color = color({r:g}, {g:g}, {b:g})')
-def step_impl(context, r, g, b):
-    expected = Color(r, g, b)
-    result = context.color
-    assert expected == result, f'{result} != {expected}'

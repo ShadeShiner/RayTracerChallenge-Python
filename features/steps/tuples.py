@@ -94,14 +94,9 @@ def step_impl(context, x, y, z, w):
         'Adding the tuples did not match the expected result.'
 
 
-@given('p1 = point({x:f}, {y:f}, {z:f})')
-def step_impl(context, x, y, z):
-    context.p1 = point(x, y, z)
-
-
-@given('p2 = point({x:f}, {y:f}, {z:f})')
-def step_impl(context, x, y, z):
-    context.p2 = point(x, y, z)
+@given('{attribute:S} = point({x:f}, {y:f}, {z:f})')
+def step_impl(context, attribute, x, y, z):
+    setattr(context, attribute, point(x, y, z))
 
 
 @then('p1 - p2 = vector({x:f}, {y:f}, {z:f})')
@@ -110,30 +105,15 @@ def step_impl(context, x, y, z):
         'Subtracting the two points, did not return the expected vector'
 
 
-@given('p = point({x:f}, {y:f}, {z:f})')
-def step_impl(context, x, y, z):
-    context.p = point(x, y, z)
-
-
-@given('v = vector({x:f}, {y:f}, {z:f})')
-def step_impl(context, x, y, z):
-    context.v = vector(x, y, z)
+@given('{attribute:S} = vector({x:g}, {y:g}, {z:g})')
+def step_impl(context, attribute, x, y, z):
+    setattr(context, attribute, vector(x, y, z))
 
 
 @then('p - v = point({x:f}, {y:f}, {z:f})')
 def step_impl(context, x, y, z):
     assert (context.p - context.v) == point(x ,y ,z),\
         'The subtraction of a point from a vector did not return the expected vector.'
-
-
-@given('v1 = vector({x:f}, {y:f}, {z:f})')
-def step_impl(context, x, y, z):
-    context.v1 = vector(x, y, z)
-
-
-@given('v2 = vector({x:f}, {y:f}, {z:f})')
-def step_impl(context, x, y, z):
-    context.v2 = vector(x, y, z)
 
 
 @then('v1 - v2 = vector({x:f}, {y:f}, {z:f})')
@@ -281,13 +261,3 @@ def step_impl(context, r, g, b):
     result = context.c1 * context.c2
     assert result == expected,\
         f'The multiplication of {context.c1} and {context.c2} was: {result} != {expected}'
-
-
-@given('eyev = vector({x:g}, {y:g}, {z:g})')
-def step_impl(context, x, y, z):
-    context.eyev = vector(x, y, z)
-
-
-@given('normalv = vector({x:g}, {y:g}, {z:g})')
-def step_impl(context, x, y, z):
-    context.normalv = vector(x, y, z)
