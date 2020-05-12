@@ -58,7 +58,7 @@ def step_impl(context):
 def step_impl(context, n):
     expected = n
     result = len(context.xs.intersects)
-    assert expected == result, f'xs.count != {n}'
+    assert expected == result, f'xs.count:{result} != {n}'
 
 
 @then('xs[{i:d}] = {expected:g}')
@@ -213,3 +213,8 @@ def step_impl(context, x, y, z):
 @when('set_transform(translation({x:d}, {y:d}, {z:d}))')
 def step_impl(context, x, y, z):
     context.s.transform = Matrix.translation(x, y, z)
+
+
+@given('r = ray({origin}, {direction>}')
+def step_impl(context, origin, direction):
+    context.r = Ray(eval(origin), eval(direction))

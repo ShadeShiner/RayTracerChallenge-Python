@@ -62,3 +62,10 @@ def step_impl(context):
         else:
             setattr(floor, attributes[0], eval(row['value']))
     context.floor = floor
+
+
+@then('normal = {normal}')
+def step_impl(context, normal):
+    expected = eval(normal)
+    result = context.normal
+    assert expected == result, f'normal:{result} != {expected}'

@@ -261,3 +261,8 @@ def step_impl(context, r, g, b):
     result = context.c1 * context.c2
     assert result == expected,\
         f'The multiplication of {context.c1} and {context.c2} was: {result} != {expected}'
+
+
+@given('p = {point}')
+def step_impl(context, point):
+    context.p = eval(point)
