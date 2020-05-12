@@ -2,7 +2,7 @@ from behave import given, then, when
 
 from src.GroupIntersections import GroupIntersections, Intersection
 from src.VectorAndMatrix import point, vector
-from src.utils import EPSILON
+from src.utils import EPSILON, equal
 
 
 @given('i = intersection({t:g}, {attribute:S})')
@@ -160,3 +160,31 @@ def step_impl(context):
 @given('xs = intersections(1.4142135623730951:floor)')
 def step_impl(context):
     context.xs = GroupIntersections(Intersection(1.4142135623730951, context.floor))
+
+
+@given('xs = intersections(-0.7071067811865476:shape, 0.7071067811865476:shape)')
+def step_impl(context):
+    context.xs = GroupIntersections(Intersection(-0.7071067811865476, context.shape),
+                                    Intersection(0.7071067811865476, context.shape))
+
+
+@given('xs = intersection(-1:shape, 1:shape)')
+def step_impl(context):
+    context.xs = GroupIntersections(Intersection(-1, context.shape),
+                                    Intersection(1, context.shape))
+
+
+@given('xs = intersections(1.8589:shape)')
+def step_impl(context):
+    context.xs = GroupIntersections(Intersection(1.8589, context.shape))
+
+
+@when('reflectance = schlick(comps)')
+def step_impl(context):
+    context.reflectance = context.comps.schlick()
+
+
+@then('reflectance = {expected:g}')
+def step_impl(context, expected):
+    result = context.reflectance
+    assert equal(expected, result), f'{result} != {expected}'

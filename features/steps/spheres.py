@@ -234,7 +234,18 @@ def step_impl(context):
 @given('ball = sphere() with')
 def step_impl(context):
     ball = Sphere()
-    ball.material.color = Color(1, 0, 0)
-    ball.material.ambient = 0.5
-    ball.transform = Matrix.translation(0, -3.5, -0.5)
+    # ball.material.color = Color(1, 0, 0)
+    # ball.material.ambient = 0.5
+    # ball.transform = Matrix.translation(0, -3.5, -0.5)
+    for row in context.table:
+        attributes = row['attribute'].split('.')
+        if len(attributes) > 1:
+            setattr(ball.material, attributes[1], eval(row['value']))
+        else:
+            setattr(ball, attributes[0], eval(row['value']))
     context.ball = ball
+
+
+@given('shape = glass_sphere()')
+def step_impl(context):
+    context.shape = glass_sphere()

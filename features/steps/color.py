@@ -10,7 +10,7 @@ def step_impl(context, attribute, r, g, b):
     result = context
     for prop in attribute.split('.'):
         result = getattr(result, prop)
-    assert expected == result, f'c != {expected}'
+    assert expected == result, f'{result} != {expected}'
 
 
 @then('c = inner.material.color')

@@ -43,11 +43,15 @@ class World(object):
         # If the surface is reflected,
         # then it will return a portion of it's color
         reflected = self.reflected_color(comps, remaining)
-
-        # TODO: WTF is wrong here
         refracted = self.refracted_color(comps, remaining)
 
-        return surface + reflected + refracted
+        # Check to see if the material for the object is reflected and refractive
+        material = comps.object.material
+        if material.reflective > 0 and material.transparency > 0:
+            reflectance = comps.schlick()
+            return surface + reflected * reflectance + refracted * (1 - reflectance)
+        else:
+            return surface + reflected + refracted
 
     def is_shadowed(self, point: Point) -> bool:
         point_to_light = (self.light.position - point)

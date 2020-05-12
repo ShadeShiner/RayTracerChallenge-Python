@@ -55,7 +55,10 @@ def step_impl(context, value):
 @given('floor = plane() with')
 def step_impl(context):
     floor = Plane()
-    floor.transform = Matrix.translation(0, -1, 0)
-    floor.material.transparency = 0.5
-    floor.material.refractive_index = 1.5
+    for row in context.table:
+        attributes = row['attribute'].split('.')
+        if len(attributes) > 1:
+            setattr(floor.material, attributes[1], eval(row['value']))
+        else:
+            setattr(floor, attributes[0], eval(row['value']))
     context.floor = floor
