@@ -69,3 +69,15 @@ def step_impl(context, normal):
     expected = eval(normal)
     result = context.normal
     assert expected == result, f'normal:{result} != {expected}'
+
+
+@when('xs = local_intersect({shape:S}, r)')
+def step_impl(context, shape):
+    obj = getattr(context, shape)
+    context.xs = obj.local_intersect(context.r)
+
+
+@when('n = local_normal_at({attribute:S}, {position})')
+def step_impl(context, attribute, position):
+    obj = getattr(context, attribute)
+    context.n = obj.local_normal_at(eval(position))

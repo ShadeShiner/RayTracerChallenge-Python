@@ -20,3 +20,11 @@ def check_axis(origin: int, direction: int):
         tmin, tmax = tmax, tmin
 
     return tmin, tmax
+
+# a helper function reduce duplication
+# checks to see if the intersection at 't' is within a radius
+# of 1 (the radius of your cylinders) from the y axis.
+def check_cap(ray, t):
+    x = ray.origin.x + t * ray.direction.x
+    z = ray.origin.z + t * ray.direction.z
+    return x ** 2 + z ** 2 <= 1

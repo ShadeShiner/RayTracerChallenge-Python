@@ -54,13 +54,6 @@ def step_impl(context):
     context.xs = context.s.intersect(context.r)
 
 
-@then('xs.count = {n:d}')
-def step_impl(context, n):
-    expected = n
-    result = len(context.xs.intersects)
-    assert expected == result, f'xs.count:{result} != {n}'
-
-
 @then('xs[{i:d}] = {expected:g}')
 def step_impl(context, i, expected):
     result = context.xs.intersects[i].t
@@ -96,12 +89,6 @@ def step_impl(context, t):
 @when('xs = intersection(i1, i2)')
 def step_impl(context):
     context.xs = GroupIntersections(context.i1, context.i2)
-
-
-@then('xs[{i:d}].t = {expected:g}')
-def step_impl(context, i, expected):
-    result = context.xs.intersects[i].t
-    assert expected == result, f'xs[{i}] != {expected}'
 
 
 @then('xs[{i:d}].object = s')
@@ -218,3 +205,13 @@ def step_impl(context, x, y, z):
 @given('r = ray({origin}, {direction>}')
 def step_impl(context, origin, direction):
     context.r = Ray(eval(origin), eval(direction))
+
+
+@given('r = ray({origin}, direction)')
+def step_impl(context, origin):
+    context.r = Ray(eval(origin), context.direction)
+
+
+@given('direction = normalize({direction})')
+def step_impl(context, direction):
+    context.direction = eval(direction).normalize()

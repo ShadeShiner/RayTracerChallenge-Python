@@ -6,7 +6,7 @@ all children class will have and/or needs to implement.
 from src.Material import Material
 from src.Ray import Ray
 from src.GroupIntersections import GroupIntersections
-from src.VectorAndMatrix import Matrix, Vec3
+from src.VectorAndMatrix import Matrix, Vec3 as Point, Vec3 as Vector
 
 
 class Shape(object):
@@ -39,7 +39,7 @@ class Shape(object):
         """
         raise NotImplementedError(f'Method "{self.local_intersect.__name__}" needs to be implemented')
 
-    def normal_at(self, world_point: Vec3) -> Vec3:
+    def normal_at(self, world_point: Point) -> Vector:
         """Calculates a normal that occurs on the given world point.
 
         :param world_point: A point object in world space. Will be converted to shape space.
@@ -54,7 +54,7 @@ class Shape(object):
         world_normal.w = 0
         return world_normal.normalize()
 
-    def local_normal_at(self, shape_point: Vec3) -> Vec3:
+    def local_normal_at(self, shape_point: Point) -> Vector:
         """ Abstract method that will need to be implemented by the children classes.
 
         Will calculate the normal at the given point, that is in shape space,

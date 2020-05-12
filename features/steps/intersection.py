@@ -188,3 +188,14 @@ def step_impl(context):
 def step_impl(context, expected):
     result = context.reflectance
     assert equal(expected, result), f'{result} != {expected}'
+
+@then('xs.count = {n:d}')
+def step_impl(context, n):
+    expected = n
+    result = len(context.xs.intersects)
+    assert equal(expected, result), f'xs.count:{result} != {n}'
+
+@then('xs[{i:d}].t = {expected:g}')
+def step_impl(context, i, expected):
+    result = context.xs.intersects[i].t
+    assert equal(expected, result), f'xs[{i}]:{result} != {expected}'

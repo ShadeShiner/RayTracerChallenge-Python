@@ -1,3 +1,4 @@
+import bisect
 import operator
 from typing import Optional
 
@@ -103,6 +104,9 @@ class GroupIntersections(object):
 
     def __len__(self):
         return len(self.intersects)
+
+    def add_intersection(self, intersect: Intersection) -> None:
+        bisect.insort(self.intersects, intersect)
 
     def hit(self) -> Optional[Intersection]:
         """ Find the closest intersection with a positive value. A positive value
