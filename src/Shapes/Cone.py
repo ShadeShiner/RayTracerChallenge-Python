@@ -1,31 +1,39 @@
 import math
 from src.Shapes.Shape import Shape
-from src.GroupIntersections import GroupIntersections, Intersection
 from src.Ray import Ray
+from src.GroupIntersections import GroupIntersections, Intersection
 from src.VectorAndMatrix import Vec3 as Point, Vec3 as Vector, vector
 from src.utils import EPSILON, check_cap
 
 
-class Cylinder(Shape):
+class Cone(Shape):
 
     def __init__(self):
-        super(Cylinder, self).__init__()
+        super(Shape, self).__init__()
         self.minimum = float('-inf')
         self.maximum = float('inf')
         self.closed = False
 
     def local_intersect(self, shape_ray: Ray) -> GroupIntersections:
-        a = shape_ray.direction.x ** 2 + shape_ray.direction.z ** 2
+        a = shape_ray.direction.x ** 2 - shape_ray.direction.y ** 2 + shape_ray.direction.z ** 2
 
-        # ray is parallel to the y axis
-        if a < EPSILON:
-            xs = GroupIntersections()
+        b = 2 * shape_ray.origin.x * shape_ray.direction.x - \
+            2 * shape_ray.origin.y * shape_ray.direction.y + \
+            2 * shape_ray.origin.z * shape_ray.direction.z
+
+        xs = GroupIntersections()
+        # if a == 0 and b == 0:
+        if abs(a) < EPSILON and abs(b) < EPSILON:
             self.intersect_caps(shape_ray, xs)
             return xs
 
-        b = 2 * shape_ray.origin.x * shape_ray.direction.x +\
-            2 * shape_ray.origin.z * shape_ray.direction.z
-        c = shape_ray.origin.x ** 2 + shape_ray.origin.z ** 2 - 1
+        c = (shape_ray.origin.x ** 2) - (shape_ray.origin.y ** 2) + (shape_ray.origin.z ** 2)
+
+        if abs(a) < EPSILON:
+            t = -c / (2 * b)
+            xs.add_intersection(Intersection(t, self))
+            self.intersect_caps(shape_ray, xs)
+            return xs
         discriminant = b ** 2 - 4 * a * c
 
         # ray does not intersect the cylinder
@@ -37,8 +45,6 @@ class Cylinder(Shape):
 
         if t0 > t1:
             t0, t1 = t1, t0
-
-        xs = GroupIntersections()
 
         y0 = shape_ray.origin.y + t0 * shape_ray.direction.y
         if self.minimum < y0 < self.maximum:
@@ -52,6 +58,7 @@ class Cylinder(Shape):
 
         return xs
 
+
     def intersect_caps(self, shape_ray: Ray, xs: GroupIntersections):
         # caps only matter if the cylinder is closed, and might possibly be
         # intersected by the ray.
@@ -61,14 +68,15 @@ class Cylinder(Shape):
         # check for an intersection with the lower end cap by intersecting
         # the ray with the plane at y=cyl.minimum
         t = (self.minimum - shape_ray.origin.y) / shape_ray.direction.y
-        if check_cap(shape_ray, t):
+        if check_cap(shape_ray, t, self.minimum):
             xs.add_intersection(Intersection(t, self))
 
         # check for an intersection with the upper end by intersecting
         # the ray with the plane at y=cyl.maximum
         t = (self.maximum - shape_ray.origin.y) / shape_ray.direction.y
-        if check_cap(shape_ray, t):
+        if check_cap(shape_ray, t, self.maximum):
             xs.add_intersection(Intersection(t, self))
+
 
     def local_normal_at(self, shape_point: Point) -> Vector:
         # compute the square of teh distance from the y axis
@@ -82,6 +90,8 @@ class Cylinder(Shape):
         elif distance < 1 and shape_point.y <= self.minimum + EPSILON:
             return vector(0, -1, 0)
 
-        # The normal is at the side of the cylinders
-        else:
-            return vector(shape_point.x, 0, shape_point.z)
+        # The side of the cone
+        y = math.sqrt(shape_point.x ** 2 + shape_point.z ** 2)
+        if shape_point.y > 0:
+            y = -y
+        return vector(shape_point.x, y, shape_point.z)

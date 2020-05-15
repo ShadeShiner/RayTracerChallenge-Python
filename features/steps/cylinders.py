@@ -1,6 +1,7 @@
 from behave import given, then
 
 from src.Shapes.Cylinder import Cylinder
+from src.Shapes.Cone import Cone
 
 
 @given('cyl = cylinder()')
@@ -38,3 +39,23 @@ def step_impl(context):
 @given('cyl.closed = true')
 def step_impl(context):
     context.cyl.closed = True
+
+
+@given('shape = cone()')
+def step_impl(context):
+    context.shape = Cone()
+
+
+@given('shape.minimum = {value:g}')
+def step_impl(context, value):
+    context.shape.minimum = value
+
+
+@given('shape.maximum = {value:g}')
+def step_impl(context, value):
+    context.shape.maximum = value
+
+
+@given('shape.closed = true')
+def step_impl(context):
+    context.shape.closed = True
