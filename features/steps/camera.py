@@ -37,11 +37,6 @@ def step_impl(context, attribute, expected):
     assert expected == result, f'c.{attribute} != {expected}'
 
 
-@then('c.transform = identity_matrix')
-def step_impl(context):
-    assert context.c.transform == Matrix.identity_matrix(), 'c.transform != identity_matrix'
-
-
 @then('c.pixel_size = {expected:g}')
 def step_impl(context, expected):
     assert equal(expected, context.c.pixel_size), f'c.pixel_size != {expected}'

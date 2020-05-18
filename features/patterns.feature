@@ -32,7 +32,7 @@ Feature: Patterns
 
     Scenario: Stripes with an object transformation
         Given object = sphere()
-          And set_transform(object, scaling(2, 2, 2))
+          And set_transform(object, Matrix.scaling(2, 2, 2))
           And pattern = stripe_pattern(white, black)
          When c = stripe_at_object(pattern, object, point(1.5, 0, 0))
          Then c = white
@@ -46,7 +46,7 @@ Feature: Patterns
 
     Scenario: Stripes with both an object and a pattern transformation
         Given object = sphere()
-          And set_transform(object, scaling(2, 2, 2))
+          And set_transform(object, Matrix.scaling(2, 2, 2))
           And pattern = stripe_pattern(white, black)
           And set_pattern_transform(pattern, translation(0.5, 0, 0))
          When c = stripe_at_object(pattern, object, point(2.5, 0, 0))
@@ -63,7 +63,7 @@ Feature: Patterns
 
     Scenario: A pattern with an object transformation
         Given shape = sphere()
-          And set_transform(shape, scaling(2, 2, 2))
+          And set_transform(shape, Matrix.scaling(2, 2, 2))
           And pattern = test_pattern()
          When c = pattern_at_shape(pattern, shape, point(2, 3, 4))
          Then c = color(1, 1.5, 2)
@@ -77,7 +77,7 @@ Feature: Patterns
 
     Scenario: A pattern with both an object and a pattern transformation
         Given shape = sphere()
-          And set_transform(shape, scaling(2, 2, 2))
+          And set_transform(shape, Matrix.scaling(2, 2, 2))
           And pattern = test_pattern()
           And set_pattern_transform(pattern, translation(0.5, 1, 1.5))
          When c = pattern_at_shape(pattern, shape, point(2.5, 3, 3.5))

@@ -33,6 +33,7 @@ def step_impl(context):
 
 
 @given('r = ray(point({px:g}, {py:g}, {pz:g}), vector({vx:g}, {vy:g}, {vz:g}))')
+@when('r = ray(point({px:g}, {py:g}, {pz:g}), vector({vx:g}, {vy:g}, {vz:g}))')
 def step_impl(context, px, py, pz, vx, vy, vz):
     context.r = Ray(point(px, py, pz), vector(vx, vy, vz))
 
@@ -49,9 +50,10 @@ def step_impl(context):
     context.s = Sphere()
 
 
-@when('xs = intersect(s, r)')
-def step_impl(context):
-    context.xs = context.s.intersect(context.r)
+@when('xs = intersect({shape}, r)')
+def step_impl(context, shape):
+    obj = getattr(context, shape)
+    context.xs = obj.intersect(context.r)
 
 
 @then('xs[{i:d}] = {expected:g}')
@@ -170,11 +172,6 @@ def step_impl(context, x, y, z):
     expected = vector(x, y, z)
     result = context.r2.direction
     assert expected == result, f'r2.direction != {expected}'
-
-
-@then('s.transform = identity_matrix')
-def step_impl(context):
-    assert context.s.transform == Matrix.identity_matrix(), 's.transform != identity_matrix'
 
 
 @given('t = translation({x:d}, {y:d}, {z:d})')

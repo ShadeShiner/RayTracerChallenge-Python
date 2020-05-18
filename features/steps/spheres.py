@@ -27,19 +27,9 @@ def step_impl(context):
     assert expected == result, f'{result} != {expected}'
 
 
-@given('set_transform(s, translation({x:d}, {y:d}, {z:d}))')
-def step_impl(context, x, y, z):
-    context.s.transform = Matrix.translation(x, y, z)
-
-
 @given('m = scaling({x:g}, {y:g}, {z:g}) * rotation_z({degrees:g})')
 def step_impl(context, x, y, z, degrees):
     context.m = Matrix.scaling(x, y, z) * Matrix.rotation_z(degrees)
-
-
-@given('set_transform(s, m)')
-def step_impl(context):
-    context.s.transform = context.m
 
 
 @given('n = vector({x:g}, {y:g}, {z:g})')
@@ -171,16 +161,6 @@ def step_impl(context, x, y, z):
     s = Sphere()
     s.transform = Matrix.translation(x, y, z)
     context.s2 = s
-
-
-@given('set_transform(object, scaling({x:g}, {y:g}, {z:g}))')
-def step_impl(context, x, y, z):
-    context.object.transform = Matrix.scaling(x, y, z)
-
-
-@given('set_transform(shape, scaling({x:g}, {y:g}, {z:g}))')
-def step_impl(context, x, y, z):
-    context.shape.transform = Matrix.scaling(x, y, z)
 
 
 @given('s = glass_sphere()')

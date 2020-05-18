@@ -176,3 +176,11 @@ def step_impl(context):
     expected = context.M
     result = context.C * context.B.inverse()
     assert expected == result, 'The multiplication of C with the inverse of B did not given the original M.'
+
+
+@then('{attribute}.transform = identity_matrix')
+def step_impl(context, attribute):
+    obj = getattr(context, attribute)
+    expected = Matrix.identity_matrix()
+    result = obj.transform
+    assert expected == result, f'Tranform:{result} != identity_matrix'

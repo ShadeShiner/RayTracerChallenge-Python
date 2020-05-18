@@ -11,10 +11,11 @@ from src.VectorAndMatrix import Matrix, Vec3 as Point, Vec3 as Vector
 
 class Shape(object):
 
-    def __init__(self):
+    def __init__(self, parent=None):
         # Converts itself from shape -> world space
         self.transform = Matrix.identity_matrix()
         self.material = Material()
+        self.parent = parent
 
     def intersect(self, world_ray: Ray) -> GroupIntersections:
         """ Calculates the intersections that occur with the shape

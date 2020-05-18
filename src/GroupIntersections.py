@@ -105,6 +105,15 @@ class GroupIntersections(object):
     def __len__(self):
         return len(self.intersects)
 
+    def __add__(self, other):
+        assert isinstance(other, GroupIntersections), f'The other operand must be of type: {GroupIntersections.__name__}'
+        all_intersections = []
+        for intersect in self:
+            all_intersections.append(intersect)
+        for intersect in other:
+            all_intersections.append(intersect)
+        return GroupIntersections(*all_intersections)
+
     def add_intersection(self, intersect: Intersection) -> None:
         bisect.insort(self.intersects, intersect)
 

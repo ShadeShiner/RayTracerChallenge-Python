@@ -63,13 +63,6 @@ def step_impl(context):
     context.pattern = TestPattern()
 
 
-@then('pattern.transform = identity_matrix')
-def step_impl(context):
-    expected = Matrix.identity_matrix()
-    result = context.pattern.transform
-    assert expected == result, 'pattern.transform != identity_matrix'
-
-
 @then('pattern.transform = translation({x:g}, {y:g}, {z:g})')
 def step_impl(context, x, y, z):
     expected = Matrix.translation(x, y, z)

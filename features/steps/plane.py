@@ -75,6 +75,7 @@ def step_impl(context):
     assert len(context.xs.intersects) == 0, 'xs is not empty'
 
 
-@then('xs[0].object = p')
-def step_impl(context):
-    assert context.xs.intersects[0].obj == context.p, 'xs[0].object != p'
+@then('xs[{index:d}].object = {shape}')
+def step_impl(context, index, shape):
+    s = getattr(context, shape)
+    assert context.xs.intersects[index].obj == s, f'xs[{index}].object != shape'

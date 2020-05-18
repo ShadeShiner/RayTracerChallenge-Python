@@ -81,3 +81,15 @@ def step_impl(context, shape):
 def step_impl(context, attribute, position):
     obj = getattr(context, attribute)
     context.n = obj.local_normal_at(eval(position))
+
+
+@then('s.parent is nothing')
+def step_impl(context):
+    assert context.s.parent is None, 'The shape instance has a parent.'
+
+
+@given('set_transform({shape}, {transform})')
+def step_impl(context, shape, transform):
+    obj = getattr(context, shape)
+    transform = eval(transform)
+    obj.transform = transform
