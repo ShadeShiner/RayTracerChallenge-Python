@@ -93,3 +93,13 @@ def step_impl(context, shape, transform):
     obj = getattr(context, shape)
     transform = eval(transform)
     obj.transform = transform
+
+
+@when('p = world_to_object(s, point({x:g}, {y:g}, {z:g}))')
+def step_impl(context, x, y, z):
+    context.p = context.s.world_to_object(point(x, y, z))
+
+
+@when('n = normal_to_world(s, vector({x:g}, {y:g}, {z:g})')
+def step_impl(context, x, y, z):
+    context.n = context.s.normal_to_world(vector(x, y, z))

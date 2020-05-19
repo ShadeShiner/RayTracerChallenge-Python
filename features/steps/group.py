@@ -3,9 +3,9 @@ from behave import given, then, when
 from src.Shapes.Group import Group
 
 
-@given('g = group()')
-def step_impl(context):
-    context.g = Group()
+@given('{attribute} = group()')
+def step_impl(context, attribute):
+    setattr(context, attribute, Group())
 
 
 @then('g is empty')
@@ -13,11 +13,12 @@ def step_impl(context):
     assert len(context.g.children) == 0, 'The group instance has objects.'
 
 
-@when('add_child(g, {shape})')
-@given('add_child(g, {shape})')
-def step_impl(context, shape):
+@when('add_child({group}, {shape})')
+@given('add_child({group}, {shape})')
+def step_impl(context, group, shape):
+    g = getattr(context, group)
     s = getattr(context, shape)
-    context.g.add_child(s)
+    g.add_child(s)
 
 
 @then('g is not empty')

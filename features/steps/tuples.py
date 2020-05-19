@@ -266,3 +266,9 @@ def step_impl(context, r, g, b):
 @given('p = {point}')
 def step_impl(context, point):
     context.p = eval(point)
+
+
+@then('p = point({x:g}, {y:g}, {z:g})')
+def step_impl(context, x, y, z):
+    expected = point(x, y, z)
+    assert expected == context.p, f'p({context.p} != {expected}'

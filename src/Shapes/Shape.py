@@ -65,3 +65,30 @@ class Shape(object):
         :return: A vector object representing the normal in shape space.
         """
         raise NotImplementedError(f'Method "{self.local_intersect.__name__}" needs to be implemented')
+
+    def world_to_object(self, point: Point) -> Point:
+        """ Recursively converts the point from world space to object space within
+        nested groups.
+
+        :param point: A point in world or group space that will be converted.
+        :return: A matrix of the transformation from world to object space
+        """
+        if self.parent:
+            point = self.parent.world_to_object(point)
+        result = self.transform.inverse() * point
+        return result
+
+    def normal_to_world(self, local_normal: Vector) -> Vector:
+        """ Converts a normal in local space to world space.
+
+        :param local_normal: A vector in object space.
+        :return: A vector in world space.
+        """
+        # This will convert to one group space up if there is a parent group.
+        normal = self.transform.inverse().transpose() * local_normal
+        normal.w = 0
+        normal = normal.normalize()
+
+        if self.parent:
+            normal = self.parent.normal_to_world(normal)
+        return normal

@@ -41,7 +41,6 @@ Feature: Groups
           And xs[2].object = s1
           And xs[3].object = s1
 
-    @test
     Scenario: Intersecting a transformed group
         Given g = group()
           And set_transform(g, Matrix.scaling(2, 2, 2))
@@ -51,3 +50,31 @@ Feature: Groups
          When r = ray(point(10, 0, -10), vector(0, 0, 1))
           And xs = intersect(g, r)
          Then xs.count = 2
+
+    Scenario: Converting a point from world to object space
+        Given g1 = group()
+          And set_transform(g1, Matrix.rotation_y(90))
+          And g2 = group()
+          And set_transform(g2, Matrix.scaling(2, 2, 2))
+          And add_child(g1, g2)
+          And s = sphere()
+          And set_transform(s, Matrix.translation(5, 0, 0))
+          And add_child(g2, s)
+         When p = world_to_object(s, point(-2, 0, -10))
+         Then p = point(0, 0, -1)
+
+    @test
+    Scenario: Converting a normal from object to world space
+        Given g1 = group()
+          And set_transform(g1, Matrix.rotation_y(90))
+          And g2 = group()
+          And set_transform(g2, Matrix.scaling(1, 2, 3))
+          And add_child(g1, g2)
+          And s = sphere()
+          And set_transform(s, Matrix.translation(5, 0, 0))
+          And add_child(g2, s)
+          And s = sphere()
+          And set_transform(s, Matrix.translation(5, 0, 0))
+          And add_child(g2, s)
+         When n = normal_to_world(s, vector(0.5773, 0.5773, 0.5773)
+         Then n = vector(0.285714, 0.428571, -0.857142)
