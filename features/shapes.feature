@@ -53,3 +53,42 @@ Feature: Shapes
     Scenario: A shape has a parent attribute
         Given s = test_shape()
          Then s.parent is nothing
+
+    Scenario: Converting a point from world to object space
+        Given g1 = group()
+          And set_transform(g1, Matrix.rotation_y(90))
+          And g2 = group()
+          And set_transform(g2, Matrix.scaling(2, 2, 2))
+          And add_child(g1, g2)
+          And s = sphere()
+          And set_transform(s, Matrix.translation(5, 0, 0))
+          And add_child(g2, s)
+         When p = world_to_object(s, point(-2, 0, -10))
+         Then p = point(0, 0, -1)
+
+    Scenario: Converting a normal from object to world space
+        Given g1 = group()
+          And set_transform(g1, Matrix.rotation_y(90))
+          And g2 = group()
+          And set_transform(g2, Matrix.scaling(1, 2, 3))
+          And add_child(g1, g2)
+          And s = sphere()
+          And set_transform(s, Matrix.translation(5, 0, 0))
+          And add_child(g2, s)
+          And s = sphere()
+          And set_transform(s, Matrix.translation(5, 0, 0))
+          And add_child(g2, s)
+         When n = normal_to_world(s, vector(0.5773, 0.5773, 0.5773)
+         Then n = vector(0.285714, 0.428571, -0.857142)
+
+    @test
+    Scenario: Finding the normal on a child object
+        Given g1 = group()
+          And set_transform(g1, Matrix.rotation_y(90))
+          And g2 = group()
+          And set_transform(g2, Matrix.scaling(1, 2, 3))
+          And add_child(g1, g2)
+          And s = sphere()
+          And set_transform(s, Matrix.translation(5, 0, 0))
+          And add_child(g2, s)
+         When n = normal_at(s, point(1.7321, 1.1547, -5.5774))

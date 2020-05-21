@@ -48,13 +48,11 @@ class Shape(object):
         :return: A vector object representing a normal in world space.
         """
         # Convert the world point and normal to shape space
-        local_point = self.transform.inverse() * world_point
+        local_point = self.world_to_object(world_point)
+        # Calculate the normal in shape space
         local_normal = self.local_normal_at(local_point)
-
         # Convert the local normal vector back to world space
-        world_normal = self.transform.inverse().transpose() * local_normal
-        world_normal.w = 0
-        return world_normal.normalize()
+        return self.normal_to_world(local_normal)
 
     def local_normal_at(self, shape_point: Point) -> Vector:
         """ Abstract method that will need to be implemented by the children classes.
