@@ -49,6 +49,16 @@ def step_impl(context, degrees):
     context.full_quarter = Matrix.rotation_y(degrees)
 
 
+@given('half_quarter = rotation_z({degrees:d})')
+def step_impl(context, degrees):
+    context.half_quarter = Matrix.rotation_z(degrees)
+
+
+@given('full_quarter = rotation_z({degrees:d})')
+def step_impl(context, degrees):
+    context.full_quarter = Matrix.rotation_z(degrees)
+
+
 @given('transform = shearing({xy:d}, {xz:d}, {yx:d}, {yz:d}, {zx:d}, {zy:d})')
 def step_impl(context, xy, xz, yx, yz, zx, zy):
     context.transform = Matrix.shearing(xy, xz, yx, yz, zx, zy)
@@ -128,7 +138,7 @@ def step_impl(context, x, y, z):
 def step_impl(context, x, y, z):
     expected = point(x, y, z)
     result = context.half_quarter * context.p
-    assert expected == result, f'half_quarter * p != {expected}'
+    assert expected == result, f'half_quarter * p({result}) != {expected}'
 
 
 @then('full_quarter * p = point({x:g}, {y:g}, {z:g})')
@@ -142,7 +152,7 @@ def step_impl(context, x, y, z):
 def step_impl(context, x, y, z):
     expected = point(x, y, z)
     result = context.p2
-    assert expected == result, f'p2 != {expected}'
+    assert expected == result, f'p2({result}) != {expected}'
 
 
 @then('p3 = point({x:g}, {y:g}, {z:g})')

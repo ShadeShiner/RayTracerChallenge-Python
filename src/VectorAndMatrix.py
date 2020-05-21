@@ -39,9 +39,9 @@ class Vec3(object):
 
     def __eq__(self, other):
         assert isinstance(other, Vec3), 'The other operand must be a Vec3 object as well.'
-        if abs(self.x - other.x > EPSILON) or \
-                abs(self.y - other.y > EPSILON) or \
-                abs(self.z - other.z > EPSILON):
+        if not equal(self.x, other.x) or \
+                not equal(self.y, other.y) or \
+                not equal(self.z, other.z):
             return False
         return True
 

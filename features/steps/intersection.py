@@ -94,12 +94,6 @@ def step_impl(context):
     )
 
 
-@when('comps = prepare_computations(xs["{index}"], r, xs)')
-def step_impl(context, index):
-    context.comps = context.xs[int(index)].\
-        prepare_computations(context.r, context.xs)
-
-
 @when('comps = prepare_computations(i, r, xs)')
 def step_impl(context):
     context.comps = context.i.prepare_computations(context.r, context.xs)
@@ -140,7 +134,10 @@ def step_impl(context):
 
 @when('comps = prepare_computations(xs[{index:d}], r, xs)')
 def step_impl(context, index):
-    context.comps = context.xs[index].prepare_computations(context.r, context.xs)
+    intersect = context.xs[index]
+    ray = context.r
+    intersections = context.xs
+    context.comps = intersect.prepare_computations(ray, intersections)
 
 
 @given('xs = intersection(-0.7071067811865476:shape, 0.7071067811865476:shape)')

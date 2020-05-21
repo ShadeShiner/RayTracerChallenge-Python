@@ -8,12 +8,12 @@ Feature: World
     Scenario: The default world
         Given light = point_light(point(-10, 10, -10), color(1, 1, 1))
           And s1 = sphere() with:
-            | variable | value |
-            | material.color | (0.8, 1.0, 0.6) |
-            | material.diffuse | 0.7 |
-            | material.specular | 0.2 |
+            | variable          | value           |
+            | material.color    | (0.8, 1.0, 0.6) |
+            | material.diffuse  | 0.7             |
+            | material.specular | 0.2             |
           And s2 = sphere() with:
-            | variable | value |
+            | variable  | value                  |
             | transform | scaling(0.5, 0.5, 0.5) |
         When w = default_world()
         Then w.light = light
@@ -195,7 +195,7 @@ Feature: World
           And xs = intersection(-0.9899:A, -0.4899:B, 0.4899:B, 0.9899:A)
          When comps = prepare_computations(xs[2], r, xs)
           And c = refracted_color(w, comps, 5)
-         Then c = color(0, 0.998884, 0.047219)
+         Then c = color(0, 0.99888, 0.04721)
 
     # This test, for some reason, fails here, but passes on a python file
     # DON'T KNOW WHY, DON'T CARE AT THIS POINT

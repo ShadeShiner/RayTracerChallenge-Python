@@ -23,7 +23,7 @@ class Intersection(object):
         return self.t < other.t
 
     def __eq__(self, other):
-        return self.t == other.t and self.obj == other.obj
+        return self.t == other.t and self.obj.id == other.obj.id
 
     def __str__(self):
         return f'Intersect(t={self.t}, obj={self.obj})'
@@ -70,14 +70,17 @@ class Intersection(object):
         if xs is None:
             xs = GroupIntersections()
 
+        # TODO: Might need a unique id for the shapes. The container seems to be remove when it shouldn't.
         containers = []
         for intersect in xs:
             if intersect == self:
                 if containers:
                     comps.n1 = containers[-1].material.refractive_index
 
-            if intersect.obj in containers:
-                containers.remove(intersect.obj)
+            for shape in containers:
+                if shape.id == intersect.obj.id:
+                    containers.remove(intersect.obj)
+                    break
             else:
                 containers.append(intersect.obj)
 
@@ -90,7 +93,7 @@ class Intersection(object):
 
 """
 This class is a container of all Intersection that has occurred from a
-Ray intersection Shape operation. The Intersections are sorted by their
+Ray intersect Shape operation. The Intersections are sorted by their
 't' values from negative to positive.
 """
 class GroupIntersections(object):

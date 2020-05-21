@@ -39,7 +39,6 @@ Feature: Cones
     | point(0, 0, -0.25) | vector(0, 1, 1) | 2     |
     | point(0, 0, -0.25) | vector(0, 1, 0) | 4     |
 
-    @test
     Scenario Outline: Computing the normal vector on a cone
         Given shape = cone()
          When n = local_normal_at(shape, <point>)

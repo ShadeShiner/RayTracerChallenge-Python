@@ -101,7 +101,9 @@ def step_impl(context, attribute, x, y, z):
 
 @then('p1 - p2 = vector({x:f}, {y:f}, {z:f})')
 def step_impl(context, x, y, z):
-    assert (context.p1 - context.p2) == vector(x, y, z),\
+    expected = vector(x, y, z)
+    result = context.p1 - context.p2
+    assert expected == result,\
         'Subtracting the two points, did not return the expected vector'
 
 

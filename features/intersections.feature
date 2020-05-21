@@ -49,7 +49,7 @@ Feature: Intersections
           And C = glass_sphere() with
           And r = ray(point(0, 0, -4), vector(0, 0, 1))
           And xs = intersections(2:A, 2.75:B, 3.25:C, 4.75:B, 5.25:C, 6:A)
-         When comps = prepare_computations(xs["<index>"], r, xs)
+         When comps = prepare_computations(xs[<index>], r, xs)
          Then comps.n1 = "<n1>"
           And comps.n2 = "<n2>"
 
@@ -71,7 +71,6 @@ Feature: Intersections
          Then comps.under_point.z > EPSILON/2
           And comps.point.z < comps.under_point.z
 
-    @test
     Scenario: The Schlick approximation under total internal reflection
         Given shape = glass_sphere()
           And r = ray(point(0, 0, 0.7071067811865476), vector(0, 1, 0))
@@ -80,7 +79,6 @@ Feature: Intersections
           And reflectance = schlick(comps)
          Then reflectance = 1.0
 
-    @test
     Scenario: The Schlick approximation with a perpendicular viewing angle
         Given shape = glass_sphere()
           And r = ray(point(0, 0, 0), vector(0, 1, 0))
@@ -89,7 +87,6 @@ Feature: Intersections
           And reflectance = schlick(comps)
          Then reflectance = 0.04
 
-    @test
     Scenario: The Schlick approximation with small angle and n2 > n1
         Given shape = glass_sphere()
           And r = ray(point(0, 0.99, -2), vector(0, 0, 1))

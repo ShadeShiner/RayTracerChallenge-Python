@@ -34,7 +34,7 @@ Feature: Tuples, Vectors, and Points
     Scenario: Subtract two points
         Given p1 = point(3.0, 2.0, 1.0)
           And p2 = point(5.0, 6.0, 7.0)
-         Then p1 - p2 = vector(-2.0, -4.0, 6.0)
+         Then p1 - p2 = vector(-2.0, -4.0, -6.0)
 
     Scenario: Subtract a vector from a point
         Given p = point(3.0, 2.0, 1.0)
@@ -44,7 +44,7 @@ Feature: Tuples, Vectors, and Points
     Scenario: Subtracting two vector
         Given v1 = vector(3.0, 2.0, 1.0)
           And v2 = vector(5.0, 6.0, 7.0)
-         Then v1 - v2 = vector(-2.0, 4.0, 6.0)
+         Then v1 - v2 = vector(-2.0, -4.0, -6.0)
 
     Scenario: Subtracting a vector from the zero vector
         Given v1 = vector(0.0, 0.0, 0.0)

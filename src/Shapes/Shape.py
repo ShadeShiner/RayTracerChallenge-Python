@@ -16,6 +16,7 @@ class Shape(object):
         self.transform = Matrix.identity_matrix()
         self.material = Material()
         self.parent = parent
+        self.id = id(self)
 
     def intersect(self, world_ray: Ray) -> GroupIntersections:
         """ Calculates the intersections that occur with the shape

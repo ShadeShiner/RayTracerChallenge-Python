@@ -88,11 +88,6 @@ def step_impl(context, x, y, z, r, g, b):
     context.w.light = PointLight(point(x, y, z), Color(r, g, b))
 
 
-@given('{attribute:S} = the second object in w')
-def step_impl(context, attribute):
-    setattr(context, attribute, context.w.objects[1])
-
-
 @when('c = color_at(w, r)')
 def step_impl(context):
     context.c = context.w.color_at(context.r)
@@ -168,6 +163,12 @@ def step_impl(context):
 @given('{attribute:S} = the first object in w')
 def step_impl(context, attribute):
     setattr(context, attribute, context.w.objects[0])
+
+
+@given('{attribute:S} = the second object in w')
+def step_impl(context, attribute):
+    setattr(context, attribute, context.w.objects[1])
+
 
 
 @given('A has')

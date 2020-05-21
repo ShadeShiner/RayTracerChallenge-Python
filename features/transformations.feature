@@ -52,8 +52,8 @@ Feature: Matrix Transformations
 
     Scenario: Rotating a point around the z axis
         Given p = point(0, 1, 0)
-          And half_quarter = rotation_y(45)
-          And full_quarter = rotation_y(90)
+          And half_quarter = rotation_z(45)
+          And full_quarter = rotation_z(90)
          Then half_quarter * p = point(-0.707106781, 0.707106781, 0)
           And full_quarter * p = point(-1, 0, 0)
 
@@ -93,7 +93,7 @@ Feature: Matrix Transformations
           And B = scaling(5, 5, 5)
           And C = translation(10, 5, 7)
          When p2 = A * p
-         Then p2 = point(-1, -1, 0)
+         Then p2 = point(1, -1, 0)
          When p3 = B * p2
          Then p3 = point(5, -5, 0)
          When p4 = C * p3

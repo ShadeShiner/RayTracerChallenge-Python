@@ -63,7 +63,6 @@ Feature: Groups
          When p = world_to_object(s, point(-2, 0, -10))
          Then p = point(0, 0, -1)
 
-    @test
     Scenario: Converting a normal from object to world space
         Given g1 = group()
           And set_transform(g1, Matrix.rotation_y(90))
