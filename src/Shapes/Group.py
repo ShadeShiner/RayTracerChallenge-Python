@@ -1,9 +1,13 @@
+from VectorAndMatrix import Vec3 as Point, Vec3 as Vector
 from src.GroupIntersections import GroupIntersections
 from src.Ray import Ray
 from src.Shapes.Shape import Shape
 
 
 class Group(Shape):
+
+    def local_normal_at(self, shape_point: Point) -> Vector:
+        raise NotImplementedError(f'Must not class this method for class: {Group.__name__}')
 
     def __init__(self, *args, **kwargs):
         super(Group, self).__init__(*args, **kwargs)

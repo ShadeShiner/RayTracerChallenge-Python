@@ -13,7 +13,7 @@ class Pattern(object):
 
     def pattern_at_shape(self, shape: Shape, world_point: Vec3):
         # Convert point from world space to object space
-        local_point = shape.transform.inverse() * world_point
+        local_point = shape.world_to_object(world_point)
 
         # Convert point from object space to pattern space
         pattern_point = self.transform.inverse() * local_point

@@ -8,6 +8,7 @@ from src.PointLight import PointLight
 from src.VectorAndMatrix import point, vector
 from src.Camera import Camera
 from src.Patterns.StripePattern import StripePattern
+from src.Patterns.RingPattern import RingPattern
 
 
 def ch9():
@@ -26,6 +27,8 @@ def ch9():
     middle.material.color = Color(0.1, 1, 0.5)
     middle.material.diffuse = 0.7
     middle.material.specular = 0.3
+    middle.material.pattern = RingPattern(Color(1, 0, 1), Color(1, 1, 1))
+    middle.material.pattern.transform = Matrix.scaling(0.25, 0.5, 0.25)
 
     # Smaller right sphere
     right = Sphere()
