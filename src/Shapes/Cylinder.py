@@ -1,8 +1,10 @@
 import math
+
 from src.Shapes.Shape import Shape
 from src.GroupIntersections import GroupIntersections, Intersection
 from src.Ray import Ray
-from src.VectorAndMatrix import Vec3 as Point, Vec3 as Vector, vector
+from src.VectorAndMatrix import Vec3 as Point, Vec3 as Vector, vector, point
+from src.BoundingBox import BoundingBox
 from src.utils import EPSILON, check_cap
 
 
@@ -85,3 +87,7 @@ class Cylinder(Shape):
         # The normal is at the side of the cylinders
         else:
             return vector(shape_point.x, 0, shape_point.z)
+
+    def bounds_of(self) -> BoundingBox:
+        return BoundingBox(point(-1, self.minimum, -1),
+                           point(1, self.maximum, 1))

@@ -184,3 +184,8 @@ def step_impl(context, attribute):
     expected = Matrix.identity_matrix()
     result = obj.transform
     assert expected == result, f'Tranform:{result} != identity_matrix'
+
+
+@given('matrix = {value}')
+def step_impl(context, value):
+    context.matrix = eval(value)

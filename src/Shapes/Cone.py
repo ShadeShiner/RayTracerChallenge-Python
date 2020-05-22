@@ -1,8 +1,10 @@
 import math
+
 from src.Shapes.Shape import Shape
 from src.Ray import Ray
 from src.GroupIntersections import GroupIntersections, Intersection
-from src.VectorAndMatrix import Vec3 as Point, Vec3 as Vector, vector
+from src.VectorAndMatrix import Vec3 as Point, Vec3 as Vector, vector, point
+from src.BoundingBox import BoundingBox
 from src.utils import EPSILON, check_cap
 
 
@@ -95,3 +97,10 @@ class Cone(Shape):
         if shape_point.y > 0:
             y = -y
         return vector(shape_point.x, y, shape_point.z)
+
+    def bounds_of(self) -> BoundingBox:
+        a = abs(self.minimum)
+        b = abs(self.maximum)
+        limit = max(a, b)
+        return BoundingBox(point(-limit, self.minimum, -limit),
+                           point(limit, self.maximum, limit))

@@ -70,7 +70,6 @@ class Intersection(object):
         if xs is None:
             xs = GroupIntersections()
 
-        # TODO: Might need a unique id for the shapes. The container seems to be remove when it shouldn't.
         containers = []
         for intersect in xs:
             if intersect == self:

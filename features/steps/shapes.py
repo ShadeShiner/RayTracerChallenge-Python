@@ -2,13 +2,25 @@ from behave import given, then, when
 
 from src.Shapes.Plane import Plane
 from src.Shapes.TestShape import TestShape
+from src.Shapes.Cube import Cube
+from src.Shapes.Cylinder import Cylinder
 from src.VectorAndMatrix import Matrix
 from src.VectorAndMatrix import point, vector
 
 
-@given('s = test_shape()')
-def step_impl(context):
-    context.s = TestShape()
+@given('{attribute} = test_shape()')
+def step_impl(context, attribute):
+    setattr(context, attribute, TestShape())
+
+
+@given('{attribute} = cube()')
+def step_impl(context, attribute):
+    setattr(context, attribute, Cube())
+
+
+@given('{attribute} = cylinder()')
+def step_impl(context, attribute):
+    setattr(context, attribute, Cylinder())
 
 
 @when('set_transform(s, translation({x:g}, {y:g}, {z:g}))')
@@ -103,3 +115,19 @@ def step_impl(context, x, y, z):
 @when('n = normal_to_world(s, vector({x:g}, {y:g}, {z:g})')
 def step_impl(context, x, y, z):
     context.n = context.s.normal_to_world(vector(x, y, z))
+
+
+@when('box = parent_space_bound_of({attribute})')
+def step_impl(context, attribute):
+    shape = getattr(context, attribute)
+    context.box = shape.parent_space_bounds_of()
+
+
+@then('child.saved_ray is unset')
+def step_impl(context):
+    assert not hasattr(context.child, 'saved_ray'), 'child.saved_ray is set'
+
+
+@then('child.saved_ray is set')
+def step_impl(context):
+    assert hasattr(context.child, 'saved_ray'), 'child.saved_ray is not set'

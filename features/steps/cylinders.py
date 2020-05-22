@@ -21,14 +21,16 @@ def step_impl(context):
     assert result == float('inf'), f'cyl.maximum:{result} != infinity'
 
 
-@given('cyl.minimum = {value:g}')
-def step_impl(context, value):
-    context.cyl.minimum = value
+@given('{attribute}.minimum = {value:g}')
+def step_impl(context, attribute, value):
+    cylinder = getattr(context, attribute)
+    cylinder.minimum = value
 
 
-@given('cyl.maximum = {value:g}')
-def step_impl(context, value):
-    context.cyl.maximum = value
+@given('{attribute}.maximum = {value:g}')
+def step_impl(context, attribute, value):
+    cylinder = getattr(context, attribute)
+    cylinder.maximum = value
 
 
 @then('cyl.closed = false')

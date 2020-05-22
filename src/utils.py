@@ -5,10 +5,10 @@ def equal(a, b):
     return abs(a - b) < EPSILON
 
 
-def check_axis(origin: int, direction: int):
-    # Offset the plane from origin by -1 and +1
-    tmin_numerator = (-1 - origin)
-    tmax_numerator = (1 - origin)
+def check_axis(origin: int, direction: int, min_value: float=None, max_value: float=None):
+    # Offset the plane from origin by -1 and +1 if it is a cube
+    tmin_numerator = (-1 - origin) if min_value is None else min_value - origin
+    tmax_numerator = (1 - origin) if max_value is None else max_value - origin
 
     if abs(direction) >= EPSILON:
         tmin = tmin_numerator / direction

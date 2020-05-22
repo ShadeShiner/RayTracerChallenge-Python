@@ -1,7 +1,9 @@
 import math
+
 from src.Shapes.Shape import Shape
 from src.VectorAndMatrix import Vec3, point
 from src.GroupIntersections import GroupIntersections, Intersection
+from src.BoundingBox import BoundingBox
 from src.Ray import Ray
 
 
@@ -37,6 +39,9 @@ class Sphere(Shape):
     def local_normal_at(self, shape_point: Vec3) -> Vec3:
         # Calculate the object normal
         return (shape_point - point(0, 0, 0)).normalize()
+
+    def bounds_of(self) -> BoundingBox:
+        return BoundingBox(point(-1, -1, -1), point(1, 1, 1))
 
 
 def glass_sphere():

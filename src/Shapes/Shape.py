@@ -7,6 +7,7 @@ from src.Material import Material
 from src.Ray import Ray
 from src.GroupIntersections import GroupIntersections
 from src.VectorAndMatrix import Matrix, Vec3 as Point, Vec3 as Vector
+from src.BoundingBox import BoundingBox
 
 
 class Shape(object):
@@ -91,3 +92,9 @@ class Shape(object):
         if self.parent:
             normal = self.parent.normal_to_world(normal)
         return normal
+
+    def bounds_of(self) -> BoundingBox:
+        raise NotImplementedError(f'Method "{self.local_intersect.__name__}" needs to be implemented')
+
+    def parent_space_bounds_of(self) -> BoundingBox:
+        return self.bounds_of().transform(self.transform)

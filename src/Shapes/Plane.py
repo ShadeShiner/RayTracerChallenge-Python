@@ -1,7 +1,8 @@
 from src.GroupIntersections import GroupIntersections, Intersection
 from src.Ray import Ray
 from src.Shapes.Shape import Shape
-from src.VectorAndMatrix import Vec3, vector
+from src.VectorAndMatrix import Vec3, vector, point
+from src.BoundingBox import BoundingBox
 from src.utils import EPSILON
 
 
@@ -19,3 +20,7 @@ class Plane(Shape):
 
     def local_normal_at(self, shape_point) -> Vec3:
         return vector(0, 1, 0)
+
+    def bounds_of(self) -> BoundingBox:
+        return BoundingBox(point(float('-inf'), 0, float('inf')),
+                           point(float('inf'), 0, float('inf')))

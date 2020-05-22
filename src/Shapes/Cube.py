@@ -1,7 +1,8 @@
 from src.Shapes.Shape import Shape
 from src.GroupIntersections import GroupIntersections, Intersection
 from src.Ray import Ray
-from src.VectorAndMatrix import Vec3 as Point, Vec3 as Vector, vector
+from src.VectorAndMatrix import Vec3 as Point, Vec3 as Vector, vector, point
+from src.BoundingBox import BoundingBox
 from src.utils import check_axis
 
 
@@ -30,3 +31,6 @@ class Cube(Shape):
             return vector(0, shape_point.y, 0)
         else:
             return vector(0, 0, shape_point.z)
+
+    def bounds_of(self) -> BoundingBox:
+        return BoundingBox(point(-1, -1, -1), point(1, 1, 1))

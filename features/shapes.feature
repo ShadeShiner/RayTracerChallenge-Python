@@ -81,7 +81,6 @@ Feature: Shapes
          When n = normal_to_world(s, vector(0.5773, 0.5773, 0.5773)
          Then n = vector(0.285714, 0.428571, -0.857142)
 
-    @test
     Scenario: Finding the normal on a child object
         Given g1 = group()
           And set_transform(g1, Matrix.rotation_y(90))
@@ -92,3 +91,10 @@ Feature: Shapes
           And set_transform(s, Matrix.translation(5, 0, 0))
           And add_child(g2, s)
          When n = normal_at(s, point(1.7321, 1.1547, -5.5774))
+
+    Scenario: Querying a shape's bounding box in its parent's space
+        Given shape = sphere()
+          And set_transform(shape, Matrix.translation(1, -3, 5) * Matrix.scaling(0.5, 2, 4))
+         When box = parent_space_bound_of(shape)
+         Then box.min = point(0.5, -5, 1)
+         Then box.max = point(1.5, -1, 9)
