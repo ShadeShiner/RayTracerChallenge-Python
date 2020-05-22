@@ -134,3 +134,36 @@ Feature: Bounds
       | point(4, 0, 9)   | vector(0, 0, -1) | False  |
       | point(8, 6, -1)  | vector(0, -1, 0) | False  |
       | point(12, 5, 4)  | vector(-1, 0, 0) | False  |
+
+    Scenario: Splitting a perfect cube
+        Given box = bounding_box(min=point(-1, -4, -5), max=point(9, 6, 5))
+         When (left, right) = split_bounds(box)
+         Then left.min = point(-1, -4, -5)
+          And left.max = point(4, 6, 5)
+          And right.min = point(4, -4, -5)
+          And right.max = point(9, 6, 5)
+
+    Scenario: Splitting an x-wide box
+        Given box = bounding_box(min=point(-1, -2, -3), max=point(9, 5.5, 3))
+         When (left, right) = split_bounds(box)
+         Then left.min = point(-1, -2, -3)
+          And left.max = point(4, 5.5, 3)
+          And right.min = point(4, -2, -3)
+          And right.max = point(9, 5.5, 3)
+
+    Scenario: Splitting a y-wide box
+        Given box = bounding_box(min=point(-1, -2, -3), max=point(5, 8, 3))
+         When (left, right) = split_bounds(box)
+         Then left.min = point(-1, -2, -3)
+          And left.max = point(5, 3, 3)
+          And right.min = point(-1, 3, -3)
+          And right.max = point(5, 8, 3)
+
+    @test
+    Scenario: Splitting a z-wide box
+        Given box = bounding_box(min=point(-1, -2, -3), max=point(5, 3, 7))
+         When (left, right) = split_bounds(box)
+         Then left.min = point(-1, -2, -3)
+          And left.max = point(5, 3, 2)
+          And right.min = point(-1, -2, 2)
+          And right.max = point(5, 3, 7)

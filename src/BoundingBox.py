@@ -69,3 +69,35 @@ class BoundingBox:
         tmax = min(xtmax, ytmax, ztmax)
 
         return tmax > tmin
+
+    def split_bounds(self):
+        # figure out the box's largest dimension
+        dx = abs(self.min.x - self.max.x)
+        dy = abs(self.min.y - self.max.y)
+        dz = abs(self.min.z - self.max.z)
+
+        greatest = max(dx, dy, dz)
+
+        # variables to help construct the points on
+        # the dividing plane
+        x0, y0, z0 = self.min.x, self.min.y, self.min.z
+        x1, y1, z1 = self.max.x, self.max.y, self.max.z
+
+        # adjust the points so that they lie on the
+        # dividing plane
+        if greatest == dx:
+            x0 = x1 = x0 + dx / 2.0
+        elif greatest == dy:
+            y0 = y1 = y0 + dy / 2.0
+        else:
+            z0 = z1 = z0 + dz / 2.0
+
+        mid_min = point(x0, y0, z0)
+        mid_max = point(x1, y1, z1)
+
+        # construct and return the two halves of
+        # the bounding box
+        left = BoundingBox(self.min, mid_max)
+        right = BoundingBox(mid_min, self.max)
+
+        return left, right

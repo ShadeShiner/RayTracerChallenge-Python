@@ -82,3 +82,11 @@ def step_impl(context, expected):
     value = context.box.intersects(context.r)
     result = expected == value
     assert result, f'intersects(box, r)({result} != {expected}'
+
+
+@when('(left, right) = split_bounds(box)')
+def step_impl(context):
+    left, right = context.box.split_bounds()
+    context.left = left
+    context.right = right
+
