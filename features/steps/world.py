@@ -24,18 +24,16 @@ def step_impl(context):
     assert context.w.light is None, 'There is a light source within the world.'
 
 
-@given('s1 = sphere() with')
-def step_impl(context):
-    context.s1 = Sphere()
-    context.s1.material.color = Color(0.8, 1.0, 0.6)
-    context.s1.material.diffuse = 0.7
-    context.s1.material.specular = 0.2
-
-
-@given('s2 = sphere() with')
-def step_impl(context):
-    context.s2 = Sphere()
-    context.s2.transform = Matrix.scaling(0.5, 0.5, 0.5)
+@given('{shape} = sphere() with')
+def step_impl(context, shape):
+    obj = Sphere()
+    setattr(context, shape, obj)
+    for row in context.table:
+        attributes = row['variable'].split('.')
+        if len(attributes) > 1:
+            setattr(obj.material, attributes[1], eval(row['value']))
+        else:
+            setattr(obj, attributes[0], eval(row['value']))
 
 
 @when('w = default_world()')

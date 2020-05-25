@@ -98,3 +98,6 @@ class Shape(object):
 
     def parent_space_bounds_of(self) -> BoundingBox:
         return self.bounds_of().transform(self.transform)
+
+    def divide(self, threshold: int):
+        pass

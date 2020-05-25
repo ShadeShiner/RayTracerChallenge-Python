@@ -159,7 +159,6 @@ Feature: Bounds
           And right.min = point(-1, 3, -3)
           And right.max = point(5, 8, 3)
 
-    @test
     Scenario: Splitting a z-wide box
         Given box = bounding_box(min=point(-1, -2, -3), max=point(5, 3, 7))
          When (left, right) = split_bounds(box)

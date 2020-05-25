@@ -80,3 +80,64 @@ Feature: Groups
           And r = ray(point(0, 0, -5), vector(0, 0, 1))
          When xs = intersect(shape, r)
          Then child.saved_ray is set
+
+    Scenario: Partitioning a group's children
+        Given s1 = sphere() with:
+            | variable  | value                        |
+            | transform | Matrix.translation(-2, 0, 0) |
+          And s2 = sphere() with:
+            | variable  | value                       |
+            | transform | Matrix.translation(2, 0, 0) |
+          And s3 = sphere()
+          And g = group() of [context.s1, context.s2, context.s3]
+         When (left, right) = partition_children(g)
+         Then g is a group of [context.s3]
+           And left = [context.s1]
+           And right = [context.s2]
+
+    Scenario: Creating a sub-group from a list of children
+        Given s1 = sphere()
+          And s2 = sphere()
+          And g = group()
+         When make_subgroup(g, [context.s1, context.s2])
+         Then g.count = 1
+          And g[0] is a group of [context.s1, context.s2]
+
+    Scenario: Subdividing a group partitions its children
+        Given s1 = sphere() with:
+          | variable  | value                         |
+          | transform | Matrix.translation(-2, -2, 0) |
+          And s2 = sphere() with:
+            | variable  | value                        |
+            | transform | Matrix.translation(-2, 2, 0) |
+          And s3 = sphere() with:
+            | variable  | value |
+            | transform | Matrix.scaling(4, 4, 4) |
+          And g = group() of [context.s1, context.s2, context.s3]
+         When divide(g, 1)
+         Then g[0] = s3
+          And subgroup = g[1]
+          And subgroup is a group
+          And subgroup.count = 2
+          And subgroup[0] is a group of [context.s1]
+          And subgroup[1] is a group of [context.s2]
+
+    Scenario: Subdividing a group with too few children
+        Given s1 = sphere() with:
+          | variable  | value                        |
+          | transform | Matrix.translation(-2, 0, 0) |
+          And s2 = sphere() with:
+            | variable  | value                       |
+            | transform | Matrix.translation(2, 1, 0) |
+          And s3 = sphere() with:
+            | variable  | value                        |
+            | transform | Matrix.translation(2, -1, 0) |
+          And subgroup = group() of [context.s1, context.s2, context.s3]
+          And s4 = sphere()
+          And g = group() of [context.subgroup, context.s4]
+          When divide(g, 3)
+          Then g[0] = subgroup
+           And g[1] = s4
+           And subgroup.count = 2
+           And subgroup[0] is a group of [context.s1]
+           And subgroup[1] is a group of [context.s2, context.s3]

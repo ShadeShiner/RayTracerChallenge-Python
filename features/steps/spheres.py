@@ -229,3 +229,9 @@ def step_impl(context):
 @given('shape = glass_sphere()')
 def step_impl(context):
     context.shape = glass_sphere()
+
+
+@then('{obj} is a sphere')
+def step_impl(context, obj):
+    shape = getattr(context, obj)
+    assert isinstance(shape, Sphere), f'{obj} is not a sphere'

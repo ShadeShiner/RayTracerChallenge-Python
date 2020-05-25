@@ -98,3 +98,8 @@ Feature: Shapes
          When box = parent_space_bound_of(shape)
          Then box.min = point(0.5, -5, 1)
          Then box.max = point(1.5, -1, 9)
+
+    Scenario: Subdividing a primitive does nothing
+        Given shape = sphere()
+         When divide(shape, 1)
+         Then shape is a sphere

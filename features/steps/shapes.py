@@ -131,3 +131,9 @@ def step_impl(context):
 @then('child.saved_ray is set')
 def step_impl(context):
     assert hasattr(context.child, 'saved_ray'), 'child.saved_ray is not set'
+
+
+@when('divide({obj}, {threshold:d})')
+def step_impl(context, obj, threshold):
+    shape = getattr(context, obj)
+    shape.divide(threshold)
