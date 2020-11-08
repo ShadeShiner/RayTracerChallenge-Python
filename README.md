@@ -17,3 +17,6 @@ To run the tests and validate the code:
   * Install Python 3
   * Using PIP, install the required packages with the following command line statement: "pip install -r requirements.txt"
   * Enter "behave" as the next command line statement and it will run all the tests that have been created at this point.
+
+There is also a C language equivalent version of this repository that was used to investigate and learn C.
+https://github.com/ShadeShiner/RayTracerChallenge-C
