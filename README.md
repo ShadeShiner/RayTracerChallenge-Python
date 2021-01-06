@@ -20,3 +20,5 @@ To run the tests and validate the code:
 
 There is also a C language equivalent version of this repository that was used to investigate and learn C.
 https://github.com/ShadeShiner/RayTracerChallenge-C
+
+Generated images from this project can be seen within the /src/generated_images/ directory path. The images are in the .ppm format, so a program like GIMP can open this file successfully. There is converters that can be found online as well.
