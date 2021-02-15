@@ -12,3 +12,13 @@ I have chose Python for the following reasons:
   * I can implement most of psuedocode quickly.
   * It is cross platform and easy to run
   * Taking the opportunity to learn Cucumber and the Gherkin testing methodology.
+
+To run the tests and validate the code:
+  * Install Python 3
+  * Using PIP, install the required packages with the following command line statement: "pip install -r requirements.txt"
+  * Enter "behave" as the next command line statement and it will run all the tests that have been created at this point.
+
+There is also a C language equivalent version of this repository that was used to investigate and learn C.
+https://github.com/ShadeShiner/RayTracerChallenge-C
+
+Generated images from this project can be seen within the /src/generated_images/ directory path. The images are in the .ppm format, so a program like GIMP can open this file successfully. There is converters that can be found online as well.
