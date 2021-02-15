@@ -270,6 +270,21 @@ def step_impl(context, point):
     context.p = eval(point)
 
 
+@given('p1 = point({x:g}, {y:g}, {z:g})')
+def step_impl(context, x, y, z):
+    context.p1 = point(x, y, z)
+
+
+@given('p2 = point({x:g}, {y:g}, {z:g})')
+def step_impl(context, x, y, z):
+    context.p2 = point(x, y, z)
+
+
+@given('p3 = point({x:g}, {y:g}, {z:g})')
+def step_impl(context, x, y, z):
+    context.p3 = point(x, y, z)
+
+
 @then('p = point({x:g}, {y:g}, {z:g})')
 def step_impl(context, x, y, z):
     expected = point(x, y, z)
