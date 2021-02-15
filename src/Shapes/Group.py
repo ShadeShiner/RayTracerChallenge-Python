@@ -12,7 +12,7 @@ class Group(Shape):
         self.children: [Shape] = []
 
     def local_normal_at(self, shape_point: Point) -> Vector:
-        raise NotImplementedError(f'Must not class this method for class: {Group.__name__}')
+        raise NotImplementedError(f'Must not implement this method for class: {Group.__name__}')
 
     def bounds_of(self) -> BoundingBox:
         bounding_box = BoundingBox()
@@ -21,6 +21,7 @@ class Group(Shape):
             bounding_box.add(child_boundary)
         return bounding_box
 
+    # INVESTIGATE: Have the child inherit the material of the group.
     def add_child(self, child: Shape):
         self.children.append(child)
         child.parent = self
