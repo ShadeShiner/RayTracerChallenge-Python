@@ -11,6 +11,9 @@ class Group(Shape):
         super(Group, self).__init__(*args, **kwargs)
         self.children: [Shape] = []
 
+    def __getitem__(self, item: int) -> Shape:
+        return self.children[item]
+
     def local_normal_at(self, shape_point: Point) -> Vector:
         raise NotImplementedError(f'Must not implement this method for class: {Group.__name__}')
 
